@@ -29,12 +29,12 @@ Once logging in to Neuron, you will need to have either [Anaconda](https://www.a
 1. Download Anaconda or Miniconda. Miniconda is fast and shoulc be sufficient for distributed deep learning practises. 
 ```
 ### Anaconda
-$ cd /scratch/$USER
+$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
 $ wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
 ```
 ```
 ### Miniconda
-$ cd /scratch/$USER
+$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
 
