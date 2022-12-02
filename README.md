@@ -23,4 +23,4 @@ We may need to set up some ditributed deep learning routines or workflows by whi
  
 <p align="center"><img src="https://user-images.githubusercontent.com/84169368/205277236-bed745ef-c684-4e65-a87d-9819e118eb4a.png" width=550/></p> 
 
-## 
+## Installing Conda
