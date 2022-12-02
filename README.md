@@ -5,6 +5,8 @@ This repository is intended to guide users to run his/her distributed deep learn
 <p align="center"><img src="https://user-images.githubusercontent.com/84169368/205237254-b916eccc-e4b7-46a8-b7ba-c156e7609314.png"/></p>
 
 ## Some thoughts on large-scale distributed training on supercompuer
+- KISTI-6 with ~600PFs is coming  in 2 years
+  - Several thousands of GPUs will be availale to users 
 - Is a large-scale LM (Language Model) training a exclusive task that can be carried out by big tech companies (e.g., Google., Meta, MS) running a global data center facilities?
 - Why is it that large-scale LM R&D is so hard in Korea? Is is due to:
   - lack of computing resources
