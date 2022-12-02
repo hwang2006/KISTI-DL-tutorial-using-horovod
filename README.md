@@ -4,7 +4,7 @@ This repository is intended to guide users to run his/her distributed deep learn
 
 <p align="center"><img src="https://user-images.githubusercontent.com/84169368/205237254-b916eccc-e4b7-46a8-b7ba-c156e7609314.png"/></p>
 
-## some questions that I am mindful of on large-scale distributed training on supercompuer
+## Some questions that I am mindful of to large-scale distributed training on supercompuer
 - Is a large-scale LM (Language Model) training a exclusive task that can be carried out by big tech companies (e.g., Google., Meta, MS) running a global data center facilities?
 - Why is it that large-scale LM R&D is so hard in Korea? Is is due to:
   - lack of computing resources
@@ -18,6 +18,6 @@ This repository is intended to guide users to run his/her distributed deep learn
   - Is it because of the traditonal batch-schduling based services?
   - ??
   
-## Distributed Training/inferencing practices workflow on supercomputing
-It might be that distributed deep learning (DL) practices on national supercomputing facilities are not so hard as we think it is, with proper tools, flexible operation & resource management policies and reasonably easy-to-use services available at the hands of DL researchers. 
+## Distributed training/inferencing practices workflow on supercomputing
+We may need to set up some ditributed deep learning routines or workflows by which DL researchers and Supercomputer facilities administrators exchange and share ideas and thoughts as to how to develope and run distributed training/inferencing practices on national supercomputing facilites. It might be that distributed deep learning (DL) practices on national supercomputing facilities are not so hard as we think it is, with proper tools, flexible operation & resource management policies and reasonably easy-to-use services available in the hands of DL researchers and developers. 
   
