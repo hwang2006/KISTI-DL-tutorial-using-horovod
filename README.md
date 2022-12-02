@@ -42,6 +42,35 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
 $ chmod 755 Miniconda3-latest-Linux-x86_64.sh
 $ ./Miniconda3-latest-Linux-x86_64.sh
+
+Welcome to Miniconda3 py39_4.12.0
+
+In order to continue the installation process, please review the license
+agreement.
+Please, press ENTER to continue
+>>>
+.
+.
+.
+Do you accept the license terms? [yes|no]
+[no] >>> yes
+
+Miniconda3 will now be installed into this location:
+/home01/qualis/miniconda3
+
+  - Press ENTER to confirm the location
+  - Press CTRL-C to abort the installation
+  - Or specify a different location below
+
+[/home01/qualis/miniconda3] >>> /scratch/$USER/miniconda3
+PREFIX=/scratch/$USER/miniconda3
+Unpacking payload ...
+Extracting : conda-content-trust-0.1.1-pyhd3eb1b0_0.conda:  
+.
+.
+.
+
+
 ```
 
 
