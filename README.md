@@ -147,4 +147,57 @@ Available Tensor Operations:
 
 ## Running Horovod 
 Now, you are ready to run distributed training using Horovod on Neuron. 
+1. request allocation of available GPU-nodes for interactively running and testing distributed training codes 
+```
+(horovod) $ salloc --partition=amd_a100nv_8 -J debug --nodes=2 --time=8:00:00 --gres=gpu:4 --comment=python
+salloc: Granted job allocation 154173
+salloc: Waiting for resource configuration
+salloc: Nodes gpu[32-33] are ready for job
+```
+In this example case, gpu32 and gpu33 are allocated with 4 GPUs each, and you are residing on the gpu32 node.
+
+2. load modules again on the gpu node
+```
+[gpu32]$ module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1 cmake/3.16.9
+```
+3. activate the horovod conda environment 
+```
+[gpu32]$ $ conda activate horovod
+(horovod) [gpu32]$
+```
+4. run & test horovod-enabled distributed deep learning codes
+  - to run on the two nodes with 4 GPUs each: 
+```
+(horovod) [gpu32]$ srun -n 8 python train.py
+```
+or
+```
+(horovod) [gpu32]$ horovodrun -np 8 -H gpu32:4,gpu33:4 python train.py
+```
+or 
+```
+(horovod) [gpu32]$ mpirun -np 8 -H gpu32:4,gpu33:4 python train.py
+```
+  - to run on two nodes with 2 GPUs each:
+```
+(horovod) [gpu32]$ srun -n 4 python train.py
+```
+or
+```
+(horovod) [gpu32]$ horovodrun -np 4 -H localhost:2,gpu33:2 python train.py
+```
+or
+```
+(horovod) [gpu32]$ mpirun -np 4 -H localhost:2,gpu33:2 python train.py
+```
+  - to run on the gpu33 with 2 GPUs:
+```
+(horovod) [gpu32]$ horovodrun -np 2 -H gpu33:2  python train.py
+```  
+## Submitting 
+5. submit and execute a   
+
+
+
+
 
