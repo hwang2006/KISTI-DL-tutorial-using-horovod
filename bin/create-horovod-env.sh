@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# make cuda
+# make cuda available and cmake is required to compile & build horovod 
 module purge
 module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1 cmake/3.16.9
 
