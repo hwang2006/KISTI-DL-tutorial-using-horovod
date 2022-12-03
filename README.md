@@ -30,12 +30,12 @@ Once logging in to Neuron, you will need to have either [Anaconda](https://www.a
 
 1. Download Anaconda or Miniconda. Miniconda is fast to install and could be sufficient for distributed deep learning practices. 
 ```
-### Anaconda site
+### (option 1) Anaconda 
 [glogin01]$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
 [glogin01]$ wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
 ```
 ```
-### Miniconda site
+### (option 2) Miniconda 
 [glogin01]$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
 [glogin01]$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
@@ -168,26 +168,28 @@ In this example case, gpu32 and gpu33 are allocated with 4 GPUs each, and you ar
 4. run & test horovod-enabled distributed deep learning codes
   - to run on the two nodes with 4 GPUs each: 
 ```
+### (Option 1)
 (horovod) [gpu32]$ srun -n 8 python train_hvd.py
 ```
-or
 ```
+### (Option 2)
 (horovod) [gpu32]$ horovodrun -np 8 -H gpu32:4,gpu33:4 python train_hvd.py
 ```
-or 
 ```
+### (Option 3)
 (horovod) [gpu32]$ mpirun -np 8 -H gpu32:4,gpu33:4 python train_hvd.py
 ```
   - to run on two nodes with 2 GPUs each:
 ```
+### (Option 1)
 (horovod) [gpu32]$ srun -n 4 python train_hvd.py
 ```
-or
 ```
+### (Option 2)
 (horovod) [gpu32]$ horovodrun -np 4 -H localhost:2,gpu33:2 python train_hvd.py
 ```
-or
 ```
+### (Option 3)
 (horovod) [gpu32]$ mpirun -np 4 -H localhost:2,gpu33:2 python train_hvd.py
 ```
   - to run on the gpu33 with 2 GPUs:
