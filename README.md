@@ -28,7 +28,7 @@ We may need to set up some ditributed deep learning routines or workflows by whi
 ## Installing Conda
 Once logging in to Neuron, you will need to have either [Anaconda](https://www.anaconda.com/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) installed on your scratch directory. Anaconda is distribution of the Python and R programming languages for scientific computing, aiming to simplify package management and deployment. Anaconda comes with +150 data science packages, whereas Miniconda, a small bootstrap version of Anaconda, comes with a handful of what's needed.
 
-1. Download Anaconda or Miniconda. Miniconda is fast and shoulc be sufficient for distributed deep learning practises. 
+1. Download Anaconda or Miniconda. Miniconda is fast and could be sufficient for distributed deep learning practises. 
 ```
 ### Anaconda
 $ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
@@ -65,14 +65,43 @@ Miniconda3 will now be installed into this location:
   - Or specify a different location below
 
 [/home01/qualis/miniconda3] >>> /scratch/$USER/miniconda3
-PREFIX=/scratch/$USER/miniconda3
+PREFIX=/scratch/qualis/miniconda3
 Unpacking payload ...
-Extracting : conda-content-trust-0.1.1-pyhd3eb1b0_0.conda:  
-.
-.
-.
+Collecting package metadata (current_repodata.json): done
+Solving environment: done
 
+## Package Plan ##
 
+  environment location: /scratch/qualis/miniconda3
+.
+.
+.
+Preparing transaction: done
+Executing transaction: done
+installation finished.
+Do you wish the installer to initialize Miniconda3
+by running conda init? [yes|no]
+[no] >>> yes
+.
+.
+.
+If you'd prefer that conda's base environment not be activated on startup,
+   set the auto_activate_base parameter to false:
+
+conda config --set auto_activate_base false
+
+Thank you for installing Miniconda3!
+```
+
+3. finalize installing Miniconda with environment variable set
+
+```
+$ source ~/.bashrc    # set conda path
+$ conda config --set auto_activate_base false
+$ which conda
+/scratch/$USER/miniconda3/condabin/conda
+$ conda --version
+conda 4.12.0
 ```
 
 
