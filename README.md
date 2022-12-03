@@ -28,14 +28,14 @@ We may need to set up some ditributed deep learning routines or workflows by whi
 ## Installing Conda
 Once logging in to Neuron, you will need to have either [Anaconda](https://www.anaconda.com/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) installed on your scratch directory. Anaconda is distribution of the Python and R programming languages for scientific computing, aiming to simplify package management and deployment. Anaconda comes with +150 data science packages, whereas Miniconda, a small bootstrap version of Anaconda, comes with a handful of what's needed.
 
-1. Download Anaconda or Miniconda. Miniconda is fast and could be sufficient for distributed deep learning practises. 
+1. Download Anaconda or Miniconda. Miniconda is fast to install and could be sufficient for distributed deep learning practices. 
 ```
-### Anaconda
+### Anaconda site
 $ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
 $ wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
 ```
 ```
-### Miniconda
+### Miniconda site
 $ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
