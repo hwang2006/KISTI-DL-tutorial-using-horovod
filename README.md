@@ -196,7 +196,7 @@ In this example case, gpu32 and gpu33 are allocated with 4 GPUs each, and you ar
 ```
 (horovod) [gpu32]$ horovodrun -np 2 -H gpu33:2  python train_hvd.py
 ```  
-## Submitting & Executing a batch job
+## Submitting & Monitoring a batch job
 1. edit a batch job script running on 4 nodes with 8 GPUs each:
 ```
 [glogin01]$ cat ./train_hvd.sh
