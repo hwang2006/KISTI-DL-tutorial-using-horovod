@@ -1,6 +1,6 @@
 # Distributed deep learning using Horovod on Neuron
 
-This repo is intended to guide users to run his/her distributed deep learning codes on multiple GPU nodes using [Horovod](https://github.com/horovod/horovod) on Neuron. Neuron is a KISTI GPU cluster system consisting of 65 nodes with 260 GPUs (120 of NVIDIA A100 GPUs and 140 of NVIDIA V100 GPUs). [Slurm](https://slurm.schedmd.com/) is adopted for cluster/resource management and job scheduling
+This repo is intended to guide users to run his/her distributed deep learning codes on multiple GPU nodes using [Horovod](https://github.com/horovod/horovod) on Neuron. Neuron is a KISTI GPU cluster system consisting of 65 nodes with 260 GPUs (120 of NVIDIA A100 GPUs and 140 of NVIDIA V100 GPUs). [Slurm](https://slurm.schedmd.com/) is adopted for cluster/resource management and job scheduling.
 
 <p align="center"><img src="https://user-images.githubusercontent.com/84169368/205237254-b916eccc-e4b7-46a8-b7ba-c156e7609314.png"/></p>
 
@@ -105,21 +105,21 @@ conda 4.12.0
 ```
 ## Building Horovod
 Now you are ready to build Horovod as a conda virtual environment: 
-1. load modules 
+1. load modules: 
 ```
 module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1 cmake/3.16.9
 ```
-2. create a new conda virtual environment and activate the environment.
+2. create a new conda virtual environment and activate the environment:
 ```
 [glogin01]$ conda create -n horovod
 [glogin01]$ conda activate horovod
 ```
-3. install the pytorch conda package & the tensorflow pip package
+3. install the pytorch conda package & the tensorflow pip package:
 ```
 (horovod) [glogin01]$ conda install pytorch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 cudatoolkit=11.3 -c pytorch
 (horovod) [glogin01]$ pip install tensorflow-gpu==2.10.0
 ```
-4. install the horovod pip package with support for tensorflow and pytorch with NCCL, MPI and GLOO enabled
+4. install the horovod pip package with support for tensorflow and pytorch with NCCL, MPI and GLOO enabled:
 ```
 (horovod) [glogin01]$ HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MPI=1 HOROVOD_WITH_GLOO=1 pip install --no-cache-dir horovod
 ```
@@ -147,7 +147,7 @@ Available Tensor Operations:
 
 ## Running Horovod interactively 
 Now, you are ready to run distributed training using Horovod on Neuron. 
-1. request allocation of available GPU-nodes for interactively running and testing distributed training codes 
+1. request allocation of available GPU-nodes for interactively running and testing distributed training codes: 
 ```
 (horovod) [glogin01]$ salloc --partition=amd_a100nv_8 -J debug --nodes=2 --time=8:00:00 --gres=gpu:4 --comment=python
 salloc: Granted job allocation 154173
@@ -156,16 +156,16 @@ salloc: Nodes gpu[32-33] are ready for job
 ```
 In this example case, gpu32 and gpu33 are allocated with 4 GPUs each, and you are residing on the gpu32 node.
 
-2. load modules again on the gpu node
+2. load modules again on the gpu node:
 ```
 [gpu32]$ module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1 cmake/3.16.9
 ```
-3. activate the horovod conda environment 
+3. activate the horovod conda environment: 
 ```
 [gpu32]$ $ conda activate horovod
 (horovod) [gpu32]$
 ```
-4. run & test horovod-enabled distributed deep learning codes
+4. run & test horovod-enabled distributed DL codes:
   - to run on the two nodes with 4 GPUs each: 
 ```
 ### (Option 1)
@@ -217,11 +217,11 @@ module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1
 
 srun python ./train_hvd.py
 ```
-2. to submit and execute the batch job
+2. to submit and execute the batch job:
 ```
 [glogin01]$ sbatch ./train_hvd.sh
 ```
-3. to check & monitor the batch job status
+3. to check & monitor the batch job status:
 ```
 [glogin01]$ squeue -u $USER
 ```
