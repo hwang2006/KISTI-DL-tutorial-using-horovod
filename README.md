@@ -145,7 +145,7 @@ Available Tensor Operations:
     [X] Gloo
 ```
 
-## Running Horovod 
+## Running Horovod interactively 
 Now, you are ready to run distributed training using Horovod on Neuron. 
 1. request allocation of available GPU-nodes for interactively running and testing distributed training codes 
 ```
@@ -194,9 +194,35 @@ or
 ```
 (horovod) [gpu32]$ horovodrun -np 2 -H gpu33:2  python train.py
 ```  
-## Submitting 
-5. submit and execute a   
+## Submitting & Executing a batch job
+1. edit a batch job script running on 4 nodes with 8 GPUs each:
+```
+$ cat ./train_hvd.sh
+#!/bin/sh
+#SBATCH -J pytorch_horovod # job name
+#SBATCH --time=24:00:00 # walltime 
+#SBATCH --comment=pytorch # application name
+#SBATCH -p amd_a100nv_8 # partition name (queue or class)
+#SBATCH --nodes=4 # the number of nodes
+#SBATCH --ntasks-per-node=8 # number of tasks per node
+#SBATCH --cpus-per-task=10 # number of cpus per task
+#SBATCH -o %x_%j.out
+#SBATCH -e %x_%j.err
+#SBATCH --gres=gpu:8 # number of GPUs per node
 
+module purge
+module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1
+
+srun python ./train.py
+```
+- to submit and execute the batch job
+```
+$ sbatch ./train_hvd.sh
+```
+- to check & monitor the batch job status
+```
+$ squeue -u $USER
+```
 
 
 
