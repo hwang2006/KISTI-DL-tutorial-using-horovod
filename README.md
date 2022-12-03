@@ -103,6 +103,47 @@ $ which conda
 $ conda --version
 conda 4.12.0
 ```
+## Building Horovod
+Now you are ready to build Horovod as a conda virtual environment: 
+1. load modules 
+```
+module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1 cmake/3.16.9
+```
+2. create a new conda virtual environment and activate the environment.
+```
+$ conda create -n horovod
+$ conda activate horovod
+```
+3. install the pytorch conda package & the tensorflow pip package
+```
+(horovod) $ conda install pytorch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 cudatoolkit=11.3 -c pytorch
+(horovod) $ pip install tensorflow-gpu==2.10.0
+```
+4. install the horovod pip package with support for tensorflow and pytorch with NCCL, MPI and GLOO enabled
+```
+(horovod) $ HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MPI=1 HOROVOD_WITH_GLOO=1 pip install --no-cache-dir horovod
+```
+5. verify the horovod conda environment. You should see something like the following:
+```
+(horovod) $ horovodrun -cb
+Horovod v0.26.1:
+
+Available Frameworks:
+    [X] TensorFlow
+    [X] PyTorch
+    [ ] MXNet
+
+Available Controllers:
+    [X] MPI
+    [X] Gloo
+
+Available Tensor Operations:
+    [X] NCCL
+    [ ] DDL
+    [ ] CCL
+    [X] MPI
+    [X] Gloo
+```
 
 
 
