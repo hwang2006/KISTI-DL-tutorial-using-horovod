@@ -123,7 +123,7 @@ $ conda activate horovod
 ```
 (horovod) $ HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MPI=1 HOROVOD_WITH_GLOO=1 pip install --no-cache-dir horovod
 ```
-5. verify the horovod conda environment. You should see something like the following:
+5. verify the horovod conda environment. You should see output something like the following:
 ```
 (horovod) $ horovodrun -cb
 Horovod v0.26.1:
@@ -145,5 +145,6 @@ Available Tensor Operations:
     [X] Gloo
 ```
 
-
+## Running Horovod 
+Now, you are ready to run distributed training using Horovod on Neuron. 
 
