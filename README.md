@@ -31,19 +31,19 @@ Once logging in to Neuron, you will need to have either [Anaconda](https://www.a
 1. Download Anaconda or Miniconda. Miniconda is fast to install and could be sufficient for distributed deep learning practices. 
 ```
 ### Anaconda site
-$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
-$ wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
+[glogin01]$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
+[glogin01]$ wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
 ```
 ```
 ### Miniconda site
-$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
-$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+[glogin01]$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
+[glogin01]$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
 
 2. Install Miniconda
 ```
-$ chmod 755 Miniconda3-latest-Linux-x86_64.sh
-$ ./Miniconda3-latest-Linux-x86_64.sh
+[glogin01]$ chmod 755 Miniconda3-latest-Linux-x86_64.sh
+[glogin01]$ ./Miniconda3-latest-Linux-x86_64.sh
 
 Welcome to Miniconda3 py39_4.12.0
 
@@ -96,11 +96,11 @@ Thank you for installing Miniconda3!
 3. finalize installing Miniconda with environment variable set
 
 ```
-$ source ~/.bashrc    # set conda path
-$ conda config --set auto_activate_base false
-$ which conda
+[glogin01]$ source ~/.bashrc    # set conda path
+[glogin01]$ conda config --set auto_activate_base false
+[glogin01]$ which conda
 /scratch/$USER/miniconda3/condabin/conda
-$ conda --version
+[glogin01]$ conda --version
 conda 4.12.0
 ```
 ## Building Horovod
@@ -111,17 +111,17 @@ module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1 cmake/3.16.9
 ```
 2. create a new conda virtual environment and activate the environment.
 ```
-$ conda create -n horovod
-$ conda activate horovod
+[glogin01]$ conda create -n horovod
+[glogin01]$ conda activate horovod
 ```
 3. install the pytorch conda package & the tensorflow pip package
 ```
-(horovod) $ conda install pytorch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 cudatoolkit=11.3 -c pytorch
-(horovod) $ pip install tensorflow-gpu==2.10.0
+(horovod) [glogin01]$ conda install pytorch==1.12.0 torchvision==0.13.0 torchaudio==0.12.0 cudatoolkit=11.3 -c pytorch
+(horovod) [glogin01]$ pip install tensorflow-gpu==2.10.0
 ```
 4. install the horovod pip package with support for tensorflow and pytorch with NCCL, MPI and GLOO enabled
 ```
-(horovod) $ HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MPI=1 HOROVOD_WITH_GLOO=1 pip install --no-cache-dir horovod
+(horovod) [glogin01]$ HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MPI=1 HOROVOD_WITH_GLOO=1 pip install --no-cache-dir horovod
 ```
 5. verify the horovod conda environment. You should see output something like the following:
 ```
@@ -149,7 +149,7 @@ Available Tensor Operations:
 Now, you are ready to run distributed training using Horovod on Neuron. 
 1. request allocation of available GPU-nodes for interactively running and testing distributed training codes 
 ```
-(horovod) $ salloc --partition=amd_a100nv_8 -J debug --nodes=2 --time=8:00:00 --gres=gpu:4 --comment=python
+(horovod) [glogin01]$ salloc --partition=amd_a100nv_8 -J debug --nodes=2 --time=8:00:00 --gres=gpu:4 --comment=python
 salloc: Granted job allocation 154173
 salloc: Waiting for resource configuration
 salloc: Nodes gpu[32-33] are ready for job
@@ -197,7 +197,7 @@ or
 ## Submitting & Executing a batch job
 1. edit a batch job script running on 4 nodes with 8 GPUs each:
 ```
-$ cat ./train_hvd.sh
+[glogin01]$ cat ./train_hvd.sh
 #!/bin/sh
 #SBATCH -J pytorch_horovod # job name
 #SBATCH --time=24:00:00 # walltime 
@@ -217,11 +217,11 @@ srun python ./train_hvd.py
 ```
 - to submit and execute the batch job
 ```
-$ sbatch ./train_hvd.sh
+[glogin01]$ sbatch ./train_hvd.sh
 ```
 - to check & monitor the batch job status
 ```
-$ squeue -u $USER
+[glogin01]$ squeue -u $USER
 ```
 
 
