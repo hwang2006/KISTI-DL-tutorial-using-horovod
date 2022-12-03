@@ -215,11 +215,11 @@ module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1
 
 srun python ./train_hvd.py
 ```
-- to submit and execute the batch job
+2. to submit and execute the batch job
 ```
 [glogin01]$ sbatch ./train_hvd.sh
 ```
-- to check & monitor the batch job status
+3. to check & monitor the batch job status
 ```
 [glogin01]$ squeue -u $USER
 ```
