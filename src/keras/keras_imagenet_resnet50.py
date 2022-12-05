@@ -18,8 +18,6 @@ from keras.preprocessing import image
 import tensorflow as tf
 import horovod.keras as hvd
 import os
-import horovod
-import horovod.tensorflow.keras as hvd2  # for loading module from checkpointed module
 
 parser = argparse.ArgumentParser(description='Keras ImageNet Example',
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -67,11 +65,9 @@ for gpu in gpus:
 if gpus:
     tf.config.experimental.set_visible_devices(gpus[hvd.local_rank()], 'GPU')
 
-
 # If set > 0, will resume training from a given checkpoint.
 resume_from_epoch = 0
-if hvd.rank() == 0:
-  for try_epoch in range(args.epochs, 0, -1):
+for try_epoch in range(args.epochs, 0, -1):
     if os.path.exists(args.checkpoint_format.format(epoch=try_epoch)):
         resume_from_epoch = try_epoch
         break
@@ -80,32 +76,29 @@ if hvd.rank() == 0:
 # checkpoints) to other ranks.
 resume_from_epoch = hvd.broadcast(resume_from_epoch, 0, name='resume_from_epoch')
 
-print(f'************************* resume_from_epoch: {resume_from_epoch}')
-
 # Horovod: print logs on the first worker.
 verbose = 1 if hvd.rank() == 0 else 0
-#verbose = 1
 
 # Training data iterator.
 train_gen = image.ImageDataGenerator(
     width_shift_range=0.33, height_shift_range=0.33, zoom_range=0.5, horizontal_flip=True,
-    preprocessing_function=tf.keras.applications.resnet50.preprocess_input)
     #preprocessing_function=keras.applications.resnet50.preprocess_input)
+    preprocessing_function=tf.keras.applications.resnet50.preprocess_input)
 train_iter = train_gen.flow_from_directory(args.train_dir,
                                            batch_size=args.batch_size,
                                            target_size=(224, 224))
 
 # Validation data iterator.
 test_gen = image.ImageDataGenerator(
-    zoom_range=(0.875, 0.875), preprocessing_function=tf.keras.applications.resnet50.preprocess_input)
     #zoom_range=(0.875, 0.875), preprocessing_function=keras.applications.resnet50.preprocess_input)
+    zoom_range=(0.875, 0.875), preprocessing_function=tf.keras.applications.resnet50.preprocess_input)
 test_iter = test_gen.flow_from_directory(args.val_dir,
                                          batch_size=args.val_batch_size,
                                          target_size=(224, 224))
 
 # Set up standard ResNet-50 model.
-model = keras.applications.ResNet50(weights=None)
 #model = keras.applications.resnet50.ResNet50(weights=None)
+model = keras.applications.ResNet50(weights=None)
 
 # Horovod: (optional) compression algorithm.
 compression = hvd.Compression.fp16 if args.fp16_allreduce else hvd.Compression.none
@@ -116,11 +109,9 @@ initial_lr = args.base_lr * hvd.size()
 # Restore from a previous checkpoint, if initial_epoch is specified.
 # Horovod: restore on the first worker which will broadcast both model and optimizer weights
 # to other workers.
-if resume_from_epoch > 0:
-    model = hvd2.load_model(args.checkpoint_format.format(epoch=resume_from_epoch), 
-                    compression=compression)
-    #model = hvd.load_model(args.checkpoint_format.format(epoch=resume_from_epoch), 
-    #               compression=compression)
+if resume_from_epoch > 0 and hvd.rank() == 0:
+    model = hvd.load_model(args.checkpoint_format.format(epoch=resume_from_epoch),
+                           compression=compression)
 else:
     # ResNet-50 model that is included with Keras is optimized for inference.
     # Add L2 weight decay & adjust BN settings.
@@ -136,24 +127,20 @@ else:
             layer_config['config']['epsilon'] = 1e-5
 
     model = keras.models.Model.from_config(model_config)
-    #opt = keras.optimizers.SGD(lr=initial_lr, momentum=args.momentum)
-    opt = keras.optimizers.SGD(learning_rate=initial_lr, momentum=args.momentum)
+    opt = keras.optimizers.SGD(lr=initial_lr, momentum=args.momentum)
 
     # Horovod: add Horovod Distributed Optimizer.
     opt = hvd.DistributedOptimizer(opt, compression=compression)
 
-    # Horovod: Specify `experimental_run_tf_function=False` to ensure TensorFlow
-    # uses hvd.DistributedOptimizer() to compute gradients.
     model.compile(loss=keras.losses.categorical_crossentropy,
                   optimizer=opt,
-                  metrics=['accuracy', 'top_k_categorical_accuracy'],
-                  experimental_run_tf_function=False)
+                  metrics=['accuracy', 'top_k_categorical_accuracy'])
 
 callbacks = [
     # Horovod: broadcast initial variable states from rank 0 to all other processes.
     # This is necessary to ensure consistent initialization of all workers when
     # training is started with random weights or restored from a checkpoint.
-    #hvd.callbacks.BroadcastGlobalVariablesCallback(0),
+    hvd.callbacks.BroadcastGlobalVariablesCallback(0),
 
     # Horovod: average metrics among workers at the end of every epoch.
     #
@@ -181,20 +168,7 @@ callbacks = [
 # Horovod: save checkpoints only on the first worker to prevent other workers from corrupting them.
 if hvd.rank() == 0:
     callbacks.append(keras.callbacks.ModelCheckpoint(args.checkpoint_format))
-    #callbacks.append(tf.keras.callbacks.ModelCheckpoint(args.checkpoint_format, verbose=1))
-    #callbacks.append(keras.callbacks.TensorBoard(args.log_dir))
-
-#Horovod: broadcast initial variable states from rank 0 to all other processes.
-if resume_from_epoch == 0: 
-   horovod.tensorflow.broadcast_variables(model.variables, 0)
-   horovod.tensorflow.broadcast_variables(model.optimizer.variables(), 0) 
-#else:
-#   horovod.tensorflow.broadcast_variables(model.variables, 0)
-#   horovod.tensorflow.broadcast_variables(model.optimizer.variables(), 0) #causing missing rank() error
-    
-#model = horovod.tensorflow.broadcast_object(model, 0)
-#hvd.broadcast_variables(model.variables,0) #'horovod.keras' has no attribute 'broadcast_variables
-#hvd.broadcast_global_variables(0) #hvd.broadcast_global_variables() does not support eager execution.
+    callbacks.append(keras.callbacks.TensorBoard(args.log_dir))
 
 # Train the model. The training will randomly sample 1 / N batches of training data and
 # 3 / N batches of validation data on every worker, where N is the number of workers.
@@ -206,25 +180,13 @@ model.fit(train_iter,
                     callbacks=callbacks,
                     epochs=args.epochs,
                     verbose=verbose,
-                    workers=8,
+                    workers=4,
                     initial_epoch=resume_from_epoch,
                     validation_data=test_iter,
                     validation_steps=3 * len(test_iter) // hvd.size())
 
 # Evaluate the model on the full data set.
-score = hvd2.allreduce(model.evaluate(test_iter, verbose=verbose, workers=4))
-#score = hvd2.allreduce(model.evaluate(test_iter, len(test_iter), verbose=verbose, workers=4))
-#score = hvd.allreduce(model.evaluate_generator(test_iter, len(test_iter), workers=4))
-#score = hvd.allreduce(model.evaluate_generator(test_iter, len(test_iter)))
-if verbose:
-    print('Test loss:', score[0])
-    print('Test accuracy:', score[1])
-
-## load the 80th checkpointed model 
-ckpt_model = hvd2.load_model(args.checkpoint_format.format(epoch=80),
-                    compression=compression)
-
-score = hvd2.allreduce(ckpt_model.evaluate(test_iter, verbose=verbose, workers=4))
+score = hvd.allreduce(model.evaluate_generator(test_iter, len(test_iter), workers=4))
 if verbose:
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
