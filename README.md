@@ -64,7 +64,7 @@ Miniconda3 will now be installed into this location:
   - Press CTRL-C to abort the installation
   - Or specify a different location below
 
-[/home01/qualis/miniconda3] >>> /scratch/$USER/miniconda3  <======== type /scratch/$USER/miniconda3
+[/home01/qualis/miniconda3] >>> /scratch/$USER/miniconda3  <======== type /scratch/$USER/miniconda3 here
 PREFIX=/scratch/qualis/miniconda3
 Unpacking payload ...
 Collecting package metadata (current_repodata.json): done
@@ -81,7 +81,7 @@ Executing transaction: done
 installation finished.
 Do you wish the installer to initialize Miniconda3
 by running conda init? [yes|no]
-[no] >>> yes         <========== type yes
+[no] >>> yes         <========== type yes here
 .
 .
 .
