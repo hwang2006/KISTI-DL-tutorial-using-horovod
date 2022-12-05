@@ -224,7 +224,7 @@ srun python ./train_hvd.py
 ```
 3. to check & monitor the batch job status:
 ```
-[glogin01]$ squeue -u $USER
+(horovod) [glogin01]$ squeue -u $USER
 ```
 
 
