@@ -96,7 +96,7 @@ Thank you for installing Miniconda3!
 3. finalize installing Miniconda with environment variable set
 
 ```
-[glogin01]$ source ~/.bashrc    # set conda path
+[glogin01]$ source ~/.bashrc    # set conda path and environment variables 
 [glogin01]$ conda config --set auto_activate_base false
 [glogin01]$ which conda
 /scratch/$USER/miniconda3/condabin/conda
