@@ -17,7 +17,7 @@ import horovod.torch as hvd
 parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
 parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                     help='input batch size for training (default: 64)')
-parser.add_argument('--test-batch-size', type=int, default=128, metavar='N',
+parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
                     help='input batch size for testing (default: 1000)')
 parser.add_argument('--epochs', type=int, default=10, metavar='N',
                     help='number of epochs to train (default: 10)')
@@ -61,36 +61,36 @@ class Net(nn.Module):
         x = self.fc2(x)
         return F.log_softmax(x)
 
-
 class CNN(nn.Module):
     def __init__(self):
         super(CNN,self).__init__()
         self.layer = nn.Sequential(
-            nn.Conv2d(in_channels=1,out_channels=16,kernel_size=5), 
-            nn.ReLU(),  
-            nn.Conv2d(in_channels=16,out_channels=32,kernel_size=5), 
+            nn.Conv2d(in_channels=1,out_channels=16,kernel_size=5), # [batch_size,1,28,28] -> [batch_siz
+            nn.ReLU(),             # 필터의 개수는 1개(흑백이미지)에서 16개로 늘어나도록 임의로 설정했습니다. 
+            nn.Conv2d(in_channels=16,out_channels=32,kernel_size=5),# [batch_size,16,24,24] -> [batch_size,32,20,20]
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2,stride=2),    
+            nn.MaxPool2d(kernel_size=2,stride=2),        # [batch_size,32,20,20] -> [batch_size,32,10,10]
             nn.Dropout(0.2),
-            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=5), 
+            nn.Conv2d(in_channels=32, out_channels=64, kernel_size=5), # [batch_size,32,10,10] -> [batch_size,64,6,6]
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=2,stride=2),
-            nn.Dropout(0.2)  
+            nn.MaxPool2d(kernel_size=2,stride=2),             # [batch_size,64,6,6] -> [batch_size,64,3,3]
+            nn.Dropout(0.2)
         )
         self.fc_layer = nn.Sequential(                                          
-            nn.Linear(64*3*3,100),      
+            nn.Linear(64*3*3,100),                             # [batch_size,64*3*3] -> [batch_size,100]
             nn.ReLU(),
-            nn.Dropout(0.2),
-            nn.Linear(100,10)     
+            #nn.Dropout(0.5),
+            nn.Linear(100,10)                                  # [batch_size,100] -> [batch_size,10]
         )       
         
     def forward(self,x):
-        out = self.layer(x)  
-        #out = out.view(args.batch_size,-1)  
-        out = out.view(-1, 64*3*3) 
+        out = self.layer(x)                # self.layer에 정의한 Sequential의 연산을 차례대로 다 실행합니다.
+        out = out.view(args.batch_size,-1) # view 함수를 이용해 텐서의 형태를 [batch_size,나머지]로 바꿔. 
+              # ex) 2x3 형태였던 텐서를 .view(1,-1) 해주면 1x6의 형태로 바뀝니다. .view(3,-1)이면 3x2로 바뀜.
+              # 만약 전체 텐서의 크기가 batch_size로 나누어 떨어지지 않으면 오류가 납니다.
         out = self.fc_layer(out)
-        return out
         #return F.log_softmax(out)
+        return out
 
 
 def train_mixed_precision(epoch, scaler):
@@ -129,18 +129,18 @@ def train_mixed_precision_cnn(epoch, scaler):
     for batch_idx, (data, target) in enumerate(train_loader):
         if args.cuda:
             data, target = data.cuda(), target.cuda()
-        optimizer_cnn.zero_grad()
+        optimizer.zero_grad()
         with torch.cuda.amp.autocast():
-            output = model_cnn(data)
-            loss = loss_func(output, target)
+            output = model(data)
+            loss = F.nll_loss(output, target)
 
         scaler.scale(loss).backward()
         # Make sure all async allreduces are done
-        optimizer_cnn.synchronize()
+        optimizer.synchronize()
         # In-place unscaling of all gradients before weights update
-        scaler.unscale_(optimizer_cnn)
-        with optimizer_cnn.skip_synchronize():
-            scaler.step(optimizer_cnn)
+        scaler.unscale_(optimizer)
+        with optimizer.skip_synchronize():
+            scaler.step(optimizer)
         # Update scaler in case of overflow/underflow
         scaler.update()
 
@@ -178,12 +178,11 @@ def train_cnn(epoch):
     for batch_idx, (data, target) in enumerate(train_loader):
         if args.cuda:
             data, target = data.cuda(), target.cuda()
-        optimizer_cnn.zero_grad()
-        output = model_cnn(data)
-        #loss = F.nll_loss(output, target)
-        loss = loss_func(output, target)
+        optimizer.zero_grad()
+        output = model(data)
+        loss = F.nll_loss(output, target)
         loss.backward()
-        optimizer_cnn.step()
+        optimizer.step()
         if batch_idx % args.log_interval == 0:
             # Horovod: use train_sampler to determine the number of examples in
             # this worker's partition.
@@ -202,12 +201,10 @@ def test():
     model.eval()
     test_loss = 0.
     test_accuracy = 0.
-    total = 0.
     for data, target in test_loader:
         if args.cuda:
             data, target = data.cuda(), target.cuda()
         output = model(data)
-        total += target.size(0)
         # sum up batch loss
         test_loss += F.nll_loss(output, target, size_average=False).item()
         # get the index of the max log-probability
@@ -216,10 +213,8 @@ def test():
 
     # Horovod: use test_sampler to determine the number of examples in
     # this worker's partition.
-    #test_loss /= len(test_sampler)
-    test_loss /= total
-    #test_accuracy /= len(test_sampler)
-    test_accuracy /= total
+    test_loss /= len(test_sampler)
+    test_accuracy /= len(test_sampler)
 
     # Horovod: average metric values across workers.
     test_loss = metric_average(test_loss, 'avg_loss')
@@ -233,53 +228,31 @@ def test():
 def test_cnn():
     model_cnn.eval()
     test_loss = 0.
-    #test_loss_ = 0.
     test_accuracy = 0.
-    #test_accuracy_ = 0.
-    total = 0.
     for data, target in test_loader:
         if args.cuda:
             data, target = data.cuda(), target.cuda()
-        output = model_cnn(data) 
-        #print("test: traget batch size: ", target.size(0))
-        total += target.size(0)
+        output = model_cnn(data)
         # sum up batch loss
-        #test_loss += F.nll_loss(output, target, size_average=False).item()
-        test_loss += loss_func(output, target).item()
+        test_loss += F.nll_loss(output, target, size_average=False).item()
         # get the index of the max log-probability
         pred = output.data.max(1, keepdim=True)[1]
-        #test_accuracy += pred.eq(target.data.view_as(pred)).cpu().float().sum()
-        test_accuracy += pred.eq(target.data.view_as(pred)).float().sum()
+        test_accuracy += pred.eq(target.data.view_as(pred)).cpu().float().sum()
 
     # Horovod: use test_sampler to determine the number of examples in
     # this worker's partition.
-    #tt_loss = test_loss/len(test_sampler)
-    #test_loss_ = test_loss/total
-    test_loss /= total
-    #print("test_accuracy : ", test_accuracy)
-    #tt_accuracy = test_accuracy.item()/len(test_sampler)
-    #test_accuracy_ = test_accuracy.item()/total
-    test_accuracy /= total
-    #print("test_accuracy_ : ", test_accuracy_, "total sample data: ", total)
+    test_loss /= len(test_sampler)
+    test_accuracy /= len(test_sampler)
 
     # Horovod: average metric values across workers.
-    #tt_loss = metric_average(tt_loss, 'avg_loss')
-    #test_loss_ = metric_average(test_loss_, 'avg_loss')
     test_loss = metric_average(test_loss, 'avg_loss')
-    #tt_accuracy = metric_average(tt_accuracy, 'avg_accuracy')
-    #test_accuracy_ = metric_average(test_accuracy_, 'avg_accuracy')
     test_accuracy = metric_average(test_accuracy, 'avg_accuracy')
 
     # Horovod: print output only on first rank.
     if hvd.rank() == 0:
-        #print("\nLength of Test Sampler: ", len(test_sampler)) 
-        #print("\nTotal Test Sampler Size : ", total)
-        #print('\nTest set: Average loss: {:.6f}, Accuracy: {:.2f}%\n'.format(
-        #    tt_loss, 100. * tt_accuracy))
-        #print('\nTest set_: Average loss: {:.6f}, Accuracy: {:.2f}%\n'.format(
-        #    test_loss_, 100. * test_accuracy_))
-        print('\nTest set_: Average loss: {:.6f}, Accuracy: {:.2f}%\n'.format(
+        print('\nTest set: Average loss: {:.4f}, Accuracy: {:.2f}%\n'.format(
             test_loss, 100. * test_accuracy))
+
 
 
 if __name__ == '__main__':
@@ -329,9 +302,6 @@ if __name__ == '__main__':
         train_dataset, num_replicas=hvd.size(), rank=hvd.rank())
     train_loader = torch.utils.data.DataLoader(
         train_dataset, batch_size=args.batch_size, sampler=train_sampler, **kwargs)
-    #train_loader = torch.utils.data.DataLoader(
-    #    train_dataset, batch_size=args.batch_size, sampler=train_sampler, num_workers=2, 
-    #    drop_last=True, **kwargs)
 
     test_dataset = \
         datasets.MNIST(data_dir, train=False, transform=transforms.Compose([
@@ -342,12 +312,9 @@ if __name__ == '__main__':
     test_sampler = torch.utils.data.distributed.DistributedSampler(
         test_dataset, num_replicas=hvd.size(), rank=hvd.rank())
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.test_batch_size,
-                                              sampler=test_sampler, shuffle=False, **kwargs)
+                                              sampler=test_sampler, **kwargs)
 
-    #test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.test_batch_size,
-	#				sampler=test_sampler, shuffle=False, drop_last=True, **kwargs)
-
-    #model = Net()
+    model = Net()
     model_cnn = CNN()
 
     # By default, Adasum doesn't need scaling up learning rate.
@@ -355,38 +322,25 @@ if __name__ == '__main__':
 
     if args.cuda:
         # Move model to GPU.
-        #model.cuda()
-        model_cnn.cuda()
+        model.cuda()
         # If using GPU Adasum allreduce, scale learning rate by local_size.
         if args.use_adasum and hvd.nccl_built():
             lr_scaler = hvd.local_size()
 
-    loss_func = nn.CrossEntropyLoss()
-
     # Horovod: scale learning rate by lr_scaler.
-    #optimizer = optim.SGD(model.parameters(), lr=args.lr * lr_scaler,
-    #                      momentum=args.momentum)
-    optimizer_cnn = optim.SGD(model_cnn.parameters(), lr=args.lr * lr_scaler,
+    optimizer = optim.SGD(model.parameters(), lr=args.lr * lr_scaler,
                           momentum=args.momentum)
 
     # Horovod: broadcast parameters & optimizer state.
-    #hvd.broadcast_parameters(model.state_dict(), root_rank=0)
-    #hvd.broadcast_optimizer_state(optimizer, root_rank=0)
-
-    hvd.broadcast_parameters(model_cnn.state_dict(), root_rank=0)
-    hvd.broadcast_optimizer_state(optimizer_cnn, root_rank=0)
+    hvd.broadcast_parameters(model.state_dict(), root_rank=0)
+    hvd.broadcast_optimizer_state(optimizer, root_rank=0)
 
     # Horovod: (optional) compression algorithm.
     compression = hvd.Compression.fp16 if args.fp16_allreduce else hvd.Compression.none
 
     # Horovod: wrap optimizer with DistributedOptimizer.
-    #optimizer = hvd.DistributedOptimizer(optimizer,
-    #                                     named_parameters=model.named_parameters(),
-    #                                     compression=compression,
-    #                                     op=hvd.Adasum if args.use_adasum else hvd.Average,
-    #                                     gradient_predivide_factor=args.gradient_predivide_factor)
-    optimizer_cnn = hvd.DistributedOptimizer(optimizer_cnn,
-                                         named_parameters=model_cnn.named_parameters(),
+    optimizer = hvd.DistributedOptimizer(optimizer,
+                                         named_parameters=model.named_parameters(),
                                          compression=compression,
                                          op=hvd.Adasum if args.use_adasum else hvd.Average,
                                          gradient_predivide_factor=args.gradient_predivide_factor)
@@ -397,11 +351,11 @@ if __name__ == '__main__':
 
     for epoch in range(1, args.epochs + 1):
         if args.use_mixed_precision:
-            #train_mixed_precision(epoch, scaler)
-            train_mixed_precision_cnn(epoch, scaler)
+            train_mixed_precision(epoch, scaler)
+            #train_mixed_precision_cnn(epoch, scaler)
         else:
-            #train(epoch)
-            train_cnn(epoch)
+            train(epoch)
+            #train_cnn(epoch)
         # Keep test in full precision since computation is relatively light.
-        #test()
-        test_cnn()
+        test()
+        #test_cnn()
