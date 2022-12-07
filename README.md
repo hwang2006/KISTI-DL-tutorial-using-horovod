@@ -145,7 +145,7 @@ Available Tensor Operations:
     [X] Gloo
 ```
 ## Why Horovod
-Horovod is a distributed deep learning training framework developed by Uber in 2917, aiming to make distributed DL training fast and easy to use. 
+Horovod, developed by Uber in 2017, is a distributed deep learning training framework for Tensorflow, Keras and Pytorch DL applications, aiming to make distributed DL training fast and easy to use. 
 
 
 ## Running Horovod interactively 
