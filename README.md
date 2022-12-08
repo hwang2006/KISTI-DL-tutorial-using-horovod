@@ -110,8 +110,7 @@ Horovod, developed by Uber in 2017, is a distributed deep learning training fram
 2. (easy to use & codify) How much modification does one have to make to a existing DL code to make it distributed? and how easy is it to run it?
 3. (fast to run) How much faster would it run in distributed mode and how easy is it to scale up to run?
 
-![38965607-bf5c46ca-4332-11e8-895a-b9c137e86013](https://user-images.githubusercontent.com/84169368/206370237-8e2f481d-cee3-453d-8ece-ef1ebd60b142.png)
-
+<p align="center"><img src="https://user-images.githubusercontent.com/84169368/206370237-8e2f481d-cee3-453d-8ece-ef1ebd60b142.png" width=800/></p> 
 
 ## Building Horovod
 Now you are ready to build Horovod as a conda virtual environment: 
@@ -347,7 +346,7 @@ Singularity is a container platform desinged for HPC environments, as opposed to
 4. Support HPC hardware (e.g., Infiniband, GPUs)
 5. Support HPC applications (e.g., MPI)
 
-![image](https://user-images.githubusercontent.com/84169368/206393495-554bfc0c-218d-4928-9453-7a0e7790a31a.png)
+<p align="center"><img src="https://user-images.githubusercontent.com/84169368/206393495-554bfc0c-218d-4928-9453-7a0e7790a31a.png" width=650/></p> 
 
 ## Running Horovod using Singularity
 You don't bother to deal with all the hassles of the Conda and Horovod, and just request the allocation of available nodes using the salloc command and run a proper singularity container that is pre-installed on Neuron. That's it!
