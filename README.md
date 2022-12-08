@@ -103,6 +103,12 @@ Thank you for installing Miniconda3!
 [glogin01]$ conda --version
 conda 4.12.0
 ```
+
+## Why Horovod
+Horovod, developed by Uber in 2017, is a distributed deep learning training framework, aimed to make it easy and simple to take a DL code developed with different DL frameworks such as Tensorflow and Pytorch (i.e., DL frameworks neutural) and scale it to run across many GPUs in parallel. It is designed with the followings in mind in the first place:
+1. How much modification does one have to make to a existing DL code to make it distributed, and how easy is it to run it?
+2. How much faster would it run in distributed mode?
+
 ## Building Horovod
 Now you are ready to build Horovod as a conda virtual environment: 
 1. load modules: 
@@ -144,9 +150,65 @@ Available Tensor Operations:
     [X] MPI
     [X] Gloo
 ```
-## Why Horovod
-Horovod, developed by Uber in 2017, is a distributed deep learning training framework for Tensorflow, Keras and Pytorch DL applications, aiming to make distributed DL training fast and easy to use. 
 
+## Horovod Usage
+To use horovod, five steps/lines to be added in your code:
+1. Initialize Horovod.
+```
+# Tensorflow 
+import horovod.tensorflow as hvd
+hvd.init()
+
+# Keras
+import horovod.keras as hvd
+hvd.init()
+
+# Pytorch
+import horovod.torch as hvd
+hvd.init()
+```
+2. Pin GPU to each worker, making sure each worker to be allocated to each GPU available.
+```
+# Tensorflow/Keras
+tf.config.experimental.set_visible_devices(gpus[hvd.local_rank()], 'GPU')
+
+# Pytorch
+torch.cuda.set_device(hvd.local_rank())
+```
+3. Adjust learning rate and wrap the ompitizer
+```
+# Tensorflow
+opt = tf.optimizers.Adam(0.01 * hvd.size())
+opt = hvd.DistributedOptimizer(opt,…)
+
+# Keras
+opt = keras.optimizers.Adadelta(0.01 * hvd.size())
+opt = hvd.DistributedOptimizer(opt,…)
+
+# Pytorch
+opt = optim.SGD(model.parameters(), 0.01 * hvd.size())
+opt= hvd.DistributedOptimizer(opt, …)
+```
+4. Broadcast the initial variable states from the masker worker (rank 0)and synchroize state across workers.
+```
+# Tensorflow/Keras
+callbacks = [hvd.callbacks.BroadcastGlobalVariablesCallback(0)]
+
+# Pytorch
+hvd.broadcast_parameters(model.state_dict(), root_rank=0)
+hvd.broadcast_optimizer_state(optimizer, root_rank=0)
+```
+5. Checkpoint on the first worker
+```
+# Tensorflow/Keras
+if hvd.rank() == 0:
+  callbacks.append(keras.callbacks.ModelCheckpoint(args.checkpoint_format))
+
+# Pytorch
+if hvd.rank() == 0:
+   state = {'model': model.state_dict(), 'optimizer': optimizer.state_dict(), } 
+   torch.save(state, filepath)
+```
 
 ## Running Horovod interactively 
 Now, you are ready to run distributed training using Horovod on Neuron. 
