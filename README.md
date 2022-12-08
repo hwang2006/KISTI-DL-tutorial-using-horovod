@@ -233,34 +233,39 @@ In this example case, gpu32 and gpu33 are allocated with 4 GPUs each, and you ar
 4. run & test horovod-enabled distributed DL codes:
   - to run on the two nodes with 4 GPUs each: 
 ```
-### (Option 1)
+# (option 1) run with srun
 (horovod) [gpu32]$ srun -n 8 python train_hvd.py
 ```
 ```
-### (Option 2)
+# (option 2) run with horovodrun
 (horovod) [gpu32]$ horovodrun -np 8 -H gpu32:4,gpu33:4 python train_hvd.py
 ```
 ```
-### (Option 3)
+# (option 3) run with mpirun
 (horovod) [gpu32]$ mpirun -np 8 -H gpu32:4,gpu33:4 python train_hvd.py
 ```
   - to run on two nodes with 2 GPUs each:
 ```
-### (Option 1)
+# (option 1) run with srun
 (horovod) [gpu32]$ srun -n 4 python train_hvd.py
 ```
 ```
-### (Option 2)
+# (option 2) run with horovodrun
 (horovod) [gpu32]$ horovodrun -np 4 -H localhost:2,gpu33:2 python train_hvd.py
 ```
 ```
-### (Option 3)
+# (option 3) run with mpirun
 (horovod) [gpu32]$ mpirun -np 4 -H localhost:2,gpu33:2 python train_hvd.py
 ```
   - to run on the gpu33 with 2 GPUs:
 ```
-(horovod) [gpu32]$ horovodrun -np 2 -H gpu33:2  python train_hvd.py
-```  
+# (option 1) run with horovodrun
+(horovod) [gpu32]$ horovodrun -np 2 -H gpu33:2 python train_hvd.py
+``` 
+```
+# (option 2) run with horovodrun using gloo 
+(horovod) [gpu32]$ horovodrun --gloo -np 2 -H gpu33:2 python train_hvd.py
+```
 ## Submitting & Monitoring a batch job
 1. edit a batch job script running on 4 nodes with 8 GPUs each:
 ```
