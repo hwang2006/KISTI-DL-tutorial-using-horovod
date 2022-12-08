@@ -339,12 +339,24 @@ srun python ./train_hvd.py
 (horovod) [glogin01]$ squeue -u $USER
 ```
 
-## Why not Docker but Singularity Container
-Singularity is a container platform for HPC.
+## Why Singularity 
+Singularity is a container platform desinged for HPC environments, as opposed to Docker designed for IT environments.
 1. Each conatiner is a single image file
 2. No root owned daemon processes
 3. Support share/multi-tenant resource environment
 4. Support HPC hardware (e.g., Infiniband, GPUs)
 5. Support HPC applications (e.g., MPI)
+
+![image](https://user-images.githubusercontent.com/84169368/206393495-554bfc0c-218d-4928-9453-7a0e7790a31a.png)
+
+## Running Horovod using Singularity
+You don't need to bother to deal with the hassles of conda and horovod, and just request nodes allocation using salloc and run a proper singularity container that is pre-installed on Neuron. That's it!
+```
+[glogin01]$ salloc --partition=amd_a100nv_8 -J debug --nodes=2 --time=2:00:00 --gres=gpu:4 –comment=pytorch
+[gpu32]$ srun -n 8 singularity run --nv /apps/applications/singularity_images/ngc/pytorch_22.03-hd-py3.sif python KISTI-DL-tutorial-using-horovod/src/pytorch/pytorch_imagenet_resnet50.py
+```
+
+
+
 
 
