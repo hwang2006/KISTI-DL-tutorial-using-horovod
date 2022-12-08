@@ -356,7 +356,7 @@ You don't bother to deal with all the hassles of the Conda and Horovod, and just
 [gpu32]$ srun -n 8 singularity run --nv /apps/applications/singularity_images/ngc/pytorch_22.03-hd-py3.sif python KISTI-DL-tutorial-using-horovod/src/pytorch/pytorch_imagenet_resnet50.py
 ```
 
-## Singularity Directory on Neuron
+## Singularity Directories on Neuron
 1. Distributed DL training job scripts directory
 ```
 /apps/applications/singularity_images/examples
