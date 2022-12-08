@@ -211,7 +211,38 @@ if hvd.rank() == 0:
 ```
 
 ## Horovod Example Code
-Horovod example code using Pytorch (see the [src](https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/tree/main/src)  direcotry for full example codes)  
+An example code using Pytorch (see the [src](https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/tree/main/src) direcotry for full codes): 
+```
+import torch
+import horovod.torch as hvd
+
+# Initialize Horovod
+hvd.init()
+
+# Pin GPUs to local rank
+torch.cuda.set_device(hvd.local_rank())
+
+# Build model
+model = Net()
+model.cuda()
+opt = optim.SGD(model.parameters())
+
+# Adjust learning rate and wrap the ompitizer
+opt = optim.SGD(model.parameters(), 0.01 * hvd.size())
+opt = hvd.DistributedOptimizer(opt, …)
+
+# Broadcast parameters and optimizer state from the masker worker (rank 0)
+hvd.broadcast_parameters(model.state_dict(), root_rank=0)
+hvd.broadcast_optimizer_state(optimizer, root_rank=0)
+
+for epoch in range (1000):
+   for batch, (data, target) in enumerate(...):
+       opt.zero_grad()
+       output = model(data)
+       loss = F.nll_loss(output, target)
+       loss.backward()
+       opt.step()
+```
 
 ## Running Horovod interactively 
 Now, you are ready to run distributed training using Horovod on Neuron. 
