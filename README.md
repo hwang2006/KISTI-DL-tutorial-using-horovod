@@ -369,7 +369,7 @@ You don't bother to deal with all the hassles of the Conda and Horovod, and just
 ```
 /apps/applications/singularity_images/examples/horovod/examples/pytorch
 ```
-4. Imagenet datasets directory 
+4. Imagenet datasets directories
 ```
 # Training datasets directory
 /apps/applications/singularity_images/imagenet/train
