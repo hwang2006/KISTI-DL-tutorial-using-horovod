@@ -105,9 +105,10 @@ conda 4.12.0
 ```
 
 ## Why Horovod for distributed DL?
-Horovod, developed by Uber in 2017, is a distributed deep learning training framework, aimed to make it easy and simple to take a DL code developed with different DL frameworks such as Tensorflow and Pytorch (i.e., DL frameworks neutural) and scale it to run across many GPUs in parallel. It is designed with the followings in mind in the first place:
-1. How much modification does one have to make to a existing DL code to make it distributed, and how easy is it to run it?
-2. How much faster would it run in distributed mode?
+Horovod, developed by Uber in 2017, is a distributed deep learning training framework, aimed to make it easy and simple to take a DL code developed with different DL frameworks like Tensorflow and Pytorch and scale it to run across many GPUs. It is designed with having the followings in mind in the first place:
+1. (neutural to DL frameworks to be used) Is it possible to make your DL codes run in parallel irrespective of whether you are using Tensorflow, Keras or Pytorch?    
+2. (easy to use & codify) How much modification does one have to make to a existing DL code to make it distributed? and how easy is it to run it?
+3. (fast to run) How much faster would it run in distributed mode?
 
 ## Building Horovod
 Now you are ready to build Horovod as a conda virtual environment: 
