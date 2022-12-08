@@ -211,7 +211,7 @@ if hvd.rank() == 0:
 ```
 
 ## Horovod Example
-An example code using Pytorch (see the [src](https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/tree/main/src) directory for full code examples): 
+An example code using Pytorch (see the [src](https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/tree/main/src) directory for full example codes): 
 ```
 import torch
 import horovod.torch as hvd
