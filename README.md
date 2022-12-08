@@ -30,12 +30,12 @@ Once logging in to Neuron, you will need to have either [Anaconda](https://www.a
 
 1. Download Anaconda or Miniconda. Miniconda is fast to install and could be sufficient for distributed deep learning practices. 
 ```
-### (option 1) Anaconda 
+# (option 1) Anaconda 
 [glogin01]$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
 [glogin01]$ wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
 ```
 ```
-### (option 2) Miniconda 
+# (option 2) Miniconda 
 [glogin01]$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
 [glogin01]$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
@@ -235,13 +235,17 @@ opt = hvd.DistributedOptimizer(opt, …)
 hvd.broadcast_parameters(model.state_dict(), root_rank=0)
 hvd.broadcast_optimizer_state(optimizer, root_rank=0)
 
-for epoch in range (1000):
+for epoch in range (100):
    for batch, (data, target) in enumerate(...):
        opt.zero_grad()
        output = model(data)
        loss = F.nll_loss(output, target)
        loss.backward()
        opt.step()
+   # checkpoint at every epoch
+   if hvd.rank() == 0:
+      state = {'model': model.state_dict(), 'optimizer': optimizer.state_dict(), } 
+      torch.save(state, filepath)
 ```
 
 ## Running Horovod interactively 
@@ -321,12 +325,12 @@ module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1
 
 srun python ./train_hvd.py
 ```
-2. to submit and execute the batch job:
+2. submit and execute the batch job:
 ```
 [glogin01]$ conda activate horovod
 (horovod) [glogin01]$ sbatch ./train_hvd.sh
 ```
-3. to check & monitor the batch job status:
+3. check & monitor the batch job status:
 ```
 (horovod) [glogin01]$ squeue -u $USER
 ```
