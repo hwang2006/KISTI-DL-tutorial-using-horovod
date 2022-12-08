@@ -211,7 +211,7 @@ if hvd.rank() == 0:
 ```
 
 ## Horovod Example Code
-Horovod example code using Pytorch (see the src direcotry for full example codes)  
+Horovod example code using Pytorch (see the [src](https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/tree/main/src)  direcotry for full example codes)  
 
 ## Running Horovod interactively 
 Now, you are ready to run distributed training using Horovod on Neuron. 
