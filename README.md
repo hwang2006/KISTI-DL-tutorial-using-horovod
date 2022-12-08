@@ -340,11 +340,11 @@ srun python ./train_hvd.py
 
 ## Why Singularity? 
 Singularity is a container platform desinged for HPC environments, as opposed to Docker designed for IT environments.
-1. Each conatiner is a single image file
-2. No root owned daemon processes
-3. Support share/multi-tenant resource environment
-4. Support HPC hardware (e.g., Infiniband, GPUs)
-5. Support HPC applications (e.g., MPI)
+- Each conatiner is a single image file
+- No root owned daemon processes
+- Support share/multi-tenant resource environment
+- Support HPC hardware (e.g., Infiniband, GPUs)
+- Support HPC applications (e.g., MPI)
 
 <p align="center"><img src="https://user-images.githubusercontent.com/84169368/206393495-554bfc0c-218d-4928-9453-7a0e7790a31a.png" width=650/></p> 
 
