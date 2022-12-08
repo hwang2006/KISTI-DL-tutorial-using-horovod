@@ -175,7 +175,7 @@ tf.config.experimental.set_visible_devices(gpus[hvd.local_rank()], 'GPU')
 # Pytorch
 torch.cuda.set_device(hvd.local_rank())
 ```
-3. Adjust learning rate and wrap the ompitizer
+3. Adjust learning rate and wrap the optimizer
 ```
 # Tensorflow
 opt = tf.optimizers.Adam(0.01 * hvd.size())
@@ -227,7 +227,7 @@ model = Net()
 model.cuda()
 opt = optim.SGD(model.parameters())
 
-# Adjust learning rate and wrap the ompitizer
+# Adjust learning rate and wrap the optimizer
 opt = optim.SGD(model.parameters(), 0.01 * hvd.size())
 opt = hvd.DistributedOptimizer(opt, …)
 
