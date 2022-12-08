@@ -210,8 +210,8 @@ if hvd.rank() == 0:
    torch.save(state, filepath)
 ```
 
-## Horovod Example Code
-An example code using Pytorch (see the [src](https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/tree/main/src) direcotry for full codes): 
+## Horovod Example
+An example code using Pytorch (see the [src](https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/tree/main/src) directory for full code examples): 
 ```
 import torch
 import horovod.torch as hvd
