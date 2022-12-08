@@ -198,7 +198,7 @@ callbacks = [hvd.callbacks.BroadcastGlobalVariablesCallback(0)]
 hvd.broadcast_parameters(model.state_dict(), root_rank=0)
 hvd.broadcast_optimizer_state(optimizer, root_rank=0)
 ```
-5. Checkpoint on the first worker
+5. Checkpoint on the master worker (rank 0)
 ```
 # Tensorflow/Keras
 if hvd.rank() == 0:
