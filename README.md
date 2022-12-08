@@ -338,3 +338,13 @@ srun python ./train_hvd.py
 ```
 (horovod) [glogin01]$ squeue -u $USER
 ```
+
+## Why not Docker but Singularity Container
+Singularity is a container platform for HPC.
+1. Each conatiner is a single image file
+2. No root owned daemon processes
+3. Support share/multi-tenant resource environment
+4. Support HPC hardware (e.g., Infiniband, GPUs)
+5. Support HPC applications (e.g., MPI)
+
+
