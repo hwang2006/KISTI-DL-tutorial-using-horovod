@@ -356,6 +356,9 @@ You don't have to bother to deal with all the hassles of the Conda and Horovod, 
 # to run NVIDIA NGC tensorflow container
 [gpu32]$ srun -n 8 singularity exec --nv /apps/applications/singularity_images/ngc/tensorflow_22.03-tf2-py3.sif python KISTI-DL-tutorial-using-horovod/src/tensorflow/tf_keras_imagenet_resnet50.py
 
+# to run NVIDIA NGC keras container
+[gpu32]$ srun -n 8 singularity exec --nv /apps/applications/singularity_images/ngc/tensorflow_22.03-tf2-keras-py3.sif python KISTI-DL-tutorial-using-horovod/src/keras/keras_imagenet_resnet50.py
+
 # to run NVIDIA NGC pytorch container
 [gpu32]$ srun -n 8 singularity exec --nv /apps/applications/singularity_images/ngc/pytorch_22.03-hd-py3.sif python KISTI-DL-tutorial-using-horovod/src/pytorch/pytorch_imagenet_resnet50.py
 ```
