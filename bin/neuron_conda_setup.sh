@@ -9,7 +9,7 @@ CONDA_DIR=$WORK_DIR/miniconda3
 
 # export CONDA ENVS and PKGS
 export CONDA_ENVS_PATH=$CONDA_DIR/envs
-export export CONDA_PKGS_DIRS=$CONDA_DIR/pkgs
+export CONDA_PKGS_DIRS=$CONDA_DIR/pkgs
 
 # set conda path
 source ~/.bashrc
