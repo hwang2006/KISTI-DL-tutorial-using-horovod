@@ -98,7 +98,8 @@ test_iter = test_gen.flow_from_directory(args.val_dir,
 
 # Set up standard ResNet-50 model.
 #model = keras.applications.resnet50.ResNet50(weights=None)
-model = keras.applications.ResNet50(weights=None)
+model = keras.applications.resnet.ResNet50(weights=None)
+#model = keras.applications.ResNet50(weights=None)
 
 # Horovod: (optional) compression algorithm.
 compression = hvd.Compression.fp16 if args.fp16_allreduce else hvd.Compression.none
@@ -127,7 +128,8 @@ else:
             layer_config['config']['epsilon'] = 1e-5
 
     model = keras.models.Model.from_config(model_config)
-    opt = keras.optimizers.SGD(lr=initial_lr, momentum=args.momentum)
+    #opt = keras.optimizers.SGD(lr=initial_lr, momentum=args.momentum)
+    opt = tf.keras.optimizers.SGD(lr=initial_lr, momentum=args.momentum)
 
     # Horovod: add Horovod Distributed Optimizer.
     opt = hvd.DistributedOptimizer(opt, compression=compression)
