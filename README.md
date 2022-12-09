@@ -28,7 +28,7 @@ We may need to set up some ditributed deep learning routines or workflows by whi
 ## Installing Conda
 Once logging in to Neuron, you will need to have either [Anaconda](https://www.anaconda.com/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) installed on your scratch directory. Anaconda is distribution of the Python and R programming languages for scientific computing, aiming to simplify package management and deployment. Anaconda comes with +150 data science packages, whereas Miniconda, a small bootstrap version of Anaconda, comes with a handful of what's needed.
 
-1. Neuron system specification
+1. Check the Neuron specification
 ```
 [glogin01]$ cat /etc/*release*
 CentOS Linux release 7.9.2009 (Core)
