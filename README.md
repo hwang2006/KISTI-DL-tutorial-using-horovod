@@ -54,7 +54,7 @@ CentOS Linux release 7.9.2009 (Core)
 cpe:/o:centos:centos:7
 ```
 
-2. Download Anaconda or Miniconda. Miniconda is fast to install and could be sufficient for distributed deep learning practices. 
+2. Download Anaconda or Miniconda. Miniconda is fast to install and should be sufficient for distributed deep learning practices. 
 ```
 # (option 1) Anaconda 
 [glogin01]$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
