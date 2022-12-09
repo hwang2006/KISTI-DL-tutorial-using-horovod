@@ -366,24 +366,23 @@ You don't have to bother to deal with all the hassles of the Conda and Horovod, 
 ## Singularity Directories on Neuron
 1. Distributed DL training job scripts directory
 ```
-/apps/applications/singularity_images/examples
+[glogin01]$ cd /apps/applications/singularity_images/examples
 ```
 2. Singularity Container Images directory
 ```
-/apps/applications/singularity_images/ngc
+[glogin01]$ cd /apps/applications/singularity_images/ngc
 ```
 3. Pytorch examples directory
 ```
-/apps/applications/singularity_images/examples/horovod/examples/pytorch
+[glogin01]$ cd /apps/applications/singularity_images/examples/horovod/examples/pytorch
 ```
 4. Imagenet datasets directories
 ```
 # Training datasets directory
-/apps/applications/singularity_images/imagenet/train
-```
-```
+[glogin01]$ cd /apps/applications/singularity_images/imagenet/train
+
 # Validation datasets directory
-/apps/applications/singularity_images/imagenet/val
+[glogin01]$ cd /apps/applications/singularity_images/imagenet/val
 ```
 
 
