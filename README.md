@@ -28,7 +28,33 @@ We may need to set up some ditributed deep learning routines or workflows by whi
 ## Installing Conda
 Once logging in to Neuron, you will need to have either [Anaconda](https://www.anaconda.com/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) installed on your scratch directory. Anaconda is distribution of the Python and R programming languages for scientific computing, aiming to simplify package management and deployment. Anaconda comes with +150 data science packages, whereas Miniconda, a small bootstrap version of Anaconda, comes with a handful of what's needed.
 
-1. Download Anaconda or Miniconda. Miniconda is fast to install and could be sufficient for distributed deep learning practices. 
+1. Neuron system specification
+```
+[glogin01]$ cat /etc/*release*
+CentOS Linux release 7.9.2009 (Core)
+Derived from Red Hat Enterprise Linux 7.8 (Source)
+NAME="CentOS Linux"
+VERSION="7 (Core)"
+ID="centos"
+ID_LIKE="rhel fedora"
+VERSION_ID="7"
+PRETTY_NAME="CentOS Linux 7 (Core)"
+ANSI_COLOR="0;31"
+CPE_NAME="cpe:/o:centos:centos:7"
+HOME_URL="https://www.centos.org/"
+BUG_REPORT_URL="https://bugs.centos.org/"
+
+CENTOS_MANTISBT_PROJECT="CentOS-7"
+CENTOS_MANTISBT_PROJECT_VERSION="7"
+REDHAT_SUPPORT_PRODUCT="centos"
+REDHAT_SUPPORT_PRODUCT_VERSION="7"
+
+CentOS Linux release 7.9.2009 (Core)
+CentOS Linux release 7.9.2009 (Core)
+cpe:/o:centos:centos:7
+```
+
+2. Download Anaconda or Miniconda. Miniconda is fast to install and could be sufficient for distributed deep learning practices. 
 ```
 # (option 1) Anaconda 
 [glogin01]$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
@@ -40,7 +66,7 @@ Once logging in to Neuron, you will need to have either [Anaconda](https://www.a
 [glogin01]$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
 
-2. Install Miniconda
+3. Install Miniconda
 ```
 [glogin01]$ chmod 755 Miniconda3-latest-Linux-x86_64.sh
 [glogin01]$ ./Miniconda3-latest-Linux-x86_64.sh
@@ -93,7 +119,7 @@ conda config --set auto_activate_base false
 Thank you for installing Miniconda3!
 ```
 
-3. finalize installing Miniconda with environment variable set
+4. finalize installing Miniconda with environment variable set
 
 ```
 [glogin01]$ source ~/.bashrc    # set conda path and environment variables 
@@ -304,7 +330,7 @@ In this example case, gpu32 and gpu33 are allocated with 4 GPUs each, and you ar
 (horovod) [gpu32]$ horovodrun -np 2 -H gpu33:2 python train_hvd.py
 ``` 
 ```
-# (option 2) run with horovodrun using gloo 
+# (option 2) run with horovodrun using gloo collective communications
 (horovod) [gpu32]$ horovodrun --gloo -np 2 -H gpu33:2 python train_hvd.py
 ```
 ## Submitting & Monitoring a Horovod batch job
