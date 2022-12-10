@@ -1,0 +1,19 @@
+# [glogin01]$ singularity build --fakeroot pytorch_22.11-py3 docker://nvcr.io/nvidia/pytorch:22.11-py3
+# [glogin01]$ singularity build --fakeroot tensorflow-pytorch-horovod.sif horovod.def
+Bootstrap: localimage
+From: pytorch_22.11-py3.sif           
+#Bootstrap: docker 
+#From: nvcr.io/nvidia/pytorch:22.11-py3
+
+%post
+	echo "PIP installing tensorflow-gpu..."
+	pip install tensorflow-gpu==2.10.0
+    #pip install keras
+    pip install filelock # pt_mnist.py requires module filelock 
+    
+    echo "PIP Installing Horovod..."
+HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MPI=1 HOROVOD_WITH_GLOO=1 pip install --no-cache-dir horovod
+
+#%runscript
+#	echo "Horovod check-build"
+#    horovodrun -cb
