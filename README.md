@@ -389,7 +389,7 @@ You don't have to bother to deal with all the hassles of the Conda and Horovod, 
 [gpu32]$ srun -n 8 singularity exec --nv /apps/applications/singularity_images/ngc/pytorch_22.03-hd-py3.sif python $GIT_DIR/KISTI-DL-tutorial-using-horovod/src/pytorch/pytorch_imagenet_resnet50.py
 ```
 
-You can also build a Horovod Singularity container along with Tensorflow and Pytorch enabled:
+You can also build your own Horovod Singularity container with both Tensorflow and Pytorch enabled:
 ```
 # build a Pytorch image from the NGC Docker Container repository
 [glogin01]$ singularity build --fakeroot pytorch_22.11-py3.sif docker://nvcr.io/nvidia/pytorch:22.11-py3
