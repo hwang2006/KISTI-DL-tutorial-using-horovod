@@ -375,7 +375,7 @@ Singularity is a container platform desinged for HPC environments, as opposed to
 <p align="center"><img src="https://user-images.githubusercontent.com/84169368/206393495-554bfc0c-218d-4928-9453-7a0e7790a31a.png" width=650/></p> 
 
 ## Running Horovod using Singularity
-You don't have to bother to deal with all the hassles of the Conda and Horovod, and just request the allocation of available nodes using the salloc command and run a proper singularity container that is pre-installed on Neuron. That's it!
+You don't have to bother to deal with all the hassles of the Conda and Horovod, and just request an allocation of available nodes using the Slurm salloc command and run a proper singularity container built on Neuron. That's it!
 ```
 [glogin01]$ salloc --partition=amd_a100nv_8 -J debug --nodes=2 --time=2:00:00 --gres=gpu:4 –comment=pytorch
 
@@ -387,6 +387,33 @@ You don't have to bother to deal with all the hassles of the Conda and Horovod, 
 
 # to run NVIDIA NGC pytorch container
 [gpu32]$ srun -n 8 singularity exec --nv /apps/applications/singularity_images/ngc/pytorch_22.03-hd-py3.sif python $GIT_DIR/KISTI-DL-tutorial-using-horovod/src/pytorch/pytorch_imagenet_resnet50.py
+```
+
+You can also build a Horovod Singularity container along with Tensorflow and Pytorch enabled:
+```
+# build a Pytorch image from the NGC Docker Container repository
+[glogin01]$ singularity build --fakeroot pytorch_22.11-py3.sif docker://nvcr.io/nvidia/pytorch:22.11-py3
+
+# create a Singularity recipe file
+[glogin01]$ cat horovod.def
+Bootstrap: localimage
+From: pytorch_22.11-py3.sif
+
+%post
+echo "PIP installing tensorflow-gpu..."
+pip install tensorflow-gpu==2.10.0
+pip install filelock # pt_mnist.py requires module filelock
+
+echo "PIP Installing Horovod..."
+HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MPI=1 HOROVOD_WITH_GLOO=1 pip install --no-cache-dir horovod
+
+# build a Horovod container image
+[glogin01]$ singularity build --fakeroot tensorflow-pytorch-horovod.sif horovod.def
+
+# run the Horovod container 
+[gpu32]$ srun -n 8 singularity exec --nv tensorflow-pytorch-horovod.sif python $GIT_DIR/KISTI-DL-tutorial-using-horovod/src/tensorflow/tf_keras_imagenet_resnet50.py
+[gpu32]$ srun -n 8 singularity exec --nv tensorflow-pytorch-horovod.sif python $GIT_DIR/KISTI-DL-tutorial-using-horovod/src/keras/keras_imagenet_resnet50.py
+[gpu32]$ srun -n 8 singularity exec --nv tensorflow-pytorch-horovod.sif python $GIT_DIR/KISTI-DL-tutorial-using-horovod/src/pytorch/pytorch_imagenet_resnet50.py
 ```
 
 ## Singularity Directories on Neuron
