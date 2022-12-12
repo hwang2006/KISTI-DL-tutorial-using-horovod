@@ -450,17 +450,33 @@ srun singularity exec --nv /apps/applications/singularity_images/ngc/tensorflow_
 
 
 ## Singularity Directories on Neuron
-1. Distributed DL training job scripts directory
+1. Singularity Container Images directory
 ```
-[glogin01]$ cd /apps/applications/singularity_images/examples
+[glogin01]$ ls /apps/applications/singularity_images/ngc
+./                              lammps:29Oct2020-x86_64.sif*            tensorflow:20.08-tf1-py3.sif*
+../                             namd:2.12-171025.sif*                   tensorflow:20.09-tf1-py3-old.sif*
+caffe:20.03-py3.sif*            namd:2.13-multinode.sif*                tensorflow:20.09-tf1-py3.sif*
+gamess:17.09-r2-libcchem.sif*   namd:3.0-alpha3-singlenode-x86_64.sif*  tensorflow:20.09-tf1-py3-slurm.sif*
+gromacs:2018.2.sif*             paraview_egl-py3-5.9.0.sif*             tensorflow:20.09-tf2-py3.sif*
+gromacs:2020.2.sif*             pytorch:20.09-py3-old.sif*              tensorflow:20.10-tf1-py3.sif*
+gromacs:2020.2-x86_64.sif*      pytorch:20.09-py3.sif*                  tensorflow:20.12-tf1-keras-py3.sif*
+gromacs:2020.sif*               pytorch:20.12-py3.sif*                  tensorflow:20.12-tf1-py3.sif*
+hpc-benchmarks:20.10-hpcg.sif*  pytorch_22.03-hd-py3.sif*               tensorflow:20.12-tf1-py3-slurm.sif*
+hpc-benchmarks:20.10-hpl.sif*   pytorch_22.03-hd-py3-v2.sif*            tensorflow:20.12-tf2-py3.sif*
+julia:v1.5.0.sif*               pytorch_22.03-py3.sif*                  tensorflow_22.03-tf1-keras-py3.sif*
+julia:v2.4.1.sif*               quantum_espresso:v6.6a1.sif*            tensorflow_22.03-tf1-py3.sif*
+lammps:15Jun2020-x86_64.sif*    quantum_espresso:v6.7.sif*              tensorflow_22.03-tf2-keras-py3.sif*
+lammps:29Oct2020.sif*           tensorflow:20.01-tf1-py3.sif*           tensorflow_22.03-tf2-py3.sif*
 ```
-2. Singularity Container Images directory
+2. Distributed DL training job scripts directory
 ```
-[glogin01]$ cd /apps/applications/singularity_images/ngc
+[glogin01]$ ls /apps/applications/singularity_images/examples
+./  ../  01.pytorch.sh*  02.pytorch_horovod.sh*  03.keras_horovod.sh*  04.srun.sh*  horovod/  pytorch/
 ```
 3. Pytorch examples directory
 ```
-[glogin01]$ cd /apps/applications/singularity_images/examples/horovod/examples/pytorch
+[glogin01]$ ls /apps/applications/singularity_images/examples/horovod/examples/pytorch
+./  ../  pytorch_imagenet_resnet50.py  pytorch_mnist.py  pytorch_synthetic_benchmark.py
 ```
 4. Imagenet datasets directories
 ```
