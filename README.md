@@ -403,7 +403,7 @@ From: pytorch_22.11-py3.sif
 %post
 echo "PIP installing tensorflow-gpu..."
 pip install tensorflow-gpu==2.10.0
-pip install filelock # pt_mnist.py requires module filelock
+pip install filelock # src/pytorch/pt_mnist.py requires the filelock module
 
 echo "PIP Installing Horovod..."
 HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOROVOD_WITH_MPI=1 HOROVOD_WITH_GLOO=1 pip install --no-cache-dir horovod
