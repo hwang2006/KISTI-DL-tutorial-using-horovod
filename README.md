@@ -375,7 +375,7 @@ Singularity is a container platform desinged for HPC environments, as opposed to
 
 <p align="center"><img src="https://user-images.githubusercontent.com/84169368/206393495-554bfc0c-218d-4928-9453-7a0e7790a31a.png" width=650/></p> 
 
-## Running Horovod using Singularity
+## Running Horovod interactively using Singularity
 You don't have to bother to deal with all the hassles of the Conda and Horovod, and just request an allocation of available nodes using the Slurm salloc command and run a proper singularity container built on Neuron. That's it!
 ```
 [glogin01]$ salloc --partition=amd_a100nv_8 -J debug --nodes=2 --time=2:00:00 --gres=gpu:4 –comment=pytorch
@@ -416,6 +416,39 @@ HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOR
 [gpu32]$ srun -n 8 singularity exec --nv tensorflow-pytorch-horovod.sif python $GIT_DIR/KISTI-DL-tutorial-using-horovod/src/keras/keras_imagenet_resnet50.py
 [gpu32]$ srun -n 8 singularity exec --nv tensorflow-pytorch-horovod.sif python $GIT_DIR/KISTI-DL-tutorial-using-horovod/src/pytorch/pytorch_imagenet_resnet50.py
 ```
+
+## Submitting & Monitoring a Horovod batch job using Singularity 
+1. edit a batch job script running on 2 nodes with 8 GPUs each:
+```
+[glogin01]$ cat ./singularity_horovod_batsh.sh
+#!/bin/sh
+#SBATCH -J python # job name
+#SBATCH --time=24:00:00 # walltime
+#SBATCH --comment=pytorch # application name
+#SBATCH -p amd_a100nv_8 # partition name (queue or class)
+#SBATCH --nodes=2 # the number of nodes
+#SBATCH --ntasks-per-node=8 # number of tasks per node
+#SBATCH --cpus-per-task=4 # number of cpus per task
+#SBATCH -o %x_%j.out
+#SBATCH -e %x_%j.err
+#SBATCH --gres=gpu:8 # number of GPUs per node
+
+module load singularity/3.9.7
+
+##srun singularity exec --nv hvd.sif python KISTI-DL-tutorial-using-horovod/src/tensorflow/tf_keras_fashion_mnist.py
+srun singularity exec --nv /apps/applications/singularity_images/ngc/tensorflow_22.03-tf2-py3.sif \
+             python tf_keras_fashion_mnist.py
+```
+2. submit and execute the batch job:
+```
+# Note: You don't have to activate the conda environment here
+[glogin01]$ sbatch ./singularity_horovod_batch.sh
+```
+3. check & monitor the batch job status:
+```
+[glogin01]$ squeue -u $USER
+```
+
 
 ## Singularity Directories on Neuron
 1. Distributed DL training job scripts directory
