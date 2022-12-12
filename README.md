@@ -389,7 +389,7 @@ You don't have to bother to deal with all the hassles of the Conda and Horovod, 
 # to run NVIDIA NGC pytorch container
 [gpu32]$ srun -n 8 singularity exec --nv /apps/applications/singularity_images/ngc/pytorch_22.03-hd-py3.sif python $GIT_DIR/KISTI-DL-tutorial-using-horovod/src/pytorch/pytorch_imagenet_resnet50.py
 ```
-
+## Building a Horovod Singularity Container image on your scratch directory 
 You can also build your own Horovod Singularity container with both Tensorflow and Pytorch enabled. In order to build a Singularity container on Neuron, you need to have a fakeroot permission that you can get by requesting it to the system administrator.  
 ```
 # build a Pytorch image from the NGC Docker Container repository
