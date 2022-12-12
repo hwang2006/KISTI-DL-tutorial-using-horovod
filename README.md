@@ -356,8 +356,9 @@ srun python tf_keras_fashion_mnist.py
 ```
 2. submit and execute the batch job:
 ```
+# Note that you need to activate the horovod environment first and then submit the batch script
 [glogin01]$ conda activate horovod
-(horovod) [glogin01]$ sbatch ./train_hvd.sh
+(horovod) [glogin01]$ sbatch ./horovod_batch.sh
 ```
 3. check & monitor the batch job status:
 ```
