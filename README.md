@@ -66,7 +66,7 @@ cpe:/o:centos:centos:7
 [glogin01]$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
 
-3. Install Miniconda
+3. Install Miniconda. By default conda will be installed in your home directory, which has a limited space.  
 ```
 [glogin01]$ chmod 755 Miniconda3-latest-Linux-x86_64.sh
 [glogin01]$ ./Miniconda3-latest-Linux-x86_64.sh
