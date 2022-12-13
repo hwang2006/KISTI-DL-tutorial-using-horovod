@@ -119,7 +119,7 @@ conda config --set auto_activate_base false
 Thank you for installing Miniconda3!
 ```
 
-4. finalize installing Miniconda with environment variable set
+4. finalize installing Miniconda with environment variables set including conda path
 
 ```
 [glogin01]$ source ~/.bashrc    # set conda path and environment variables 
