@@ -260,7 +260,7 @@ opt = optim.SGD(model.parameters())
 opt = optim.SGD(model.parameters(), 0.01 * hvd.size())
 opt = hvd.DistributedOptimizer(opt, …)
 
-# Broadcast parameters and optimizer state from the masker worker (rank 0)
+# Broadcast parameters and optimizer state from the master worker (rank 0)
 hvd.broadcast_parameters(model.state_dict(), root_rank=0)
 hvd.broadcast_optimizer_state(optimizer, root_rank=0)
 
