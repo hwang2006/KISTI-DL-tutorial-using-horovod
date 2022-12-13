@@ -6,7 +6,7 @@ module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1 cmake/3.16.9
 
 # create the horovd virtual environment
 # make sure that miniconda was installed in /scratch/userID/miniconda3
-# prefix (=horovod directory): /scratch/userID/miniconda3/envs/hvd-env
+# prefix (=horovod directory): /scratch/$USER/miniconda3/envs/hvd-env
 conda env create -f environment.yml --force
 
 # activate the horovod environment
