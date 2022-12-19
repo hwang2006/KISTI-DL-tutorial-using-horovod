@@ -9,7 +9,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 import socket
-from tqdm import tqdm
+#from tqdm import tqdm
 import horovod.torch as hvd
 
 # Horovod: initialize library.
@@ -27,7 +27,7 @@ torch.cuda.manual_seed(42)
 batch_size = 32
 learning_rate = 0.0002
 #learning_rate = 0.002
-num_epoch = 100 
+num_epoch = 100
 
 # 라벨(혹은 클래스) 별로 폴더가 저장되어 있는 루트 디렉토리를 지정합니다.
 #img_dir = "./images"
@@ -300,7 +300,8 @@ val_loss = 0.
 val_accuracy = 0.
 
 with torch.no_grad():
-  for image,label in tqdm(valid_loader):
+  #for image,label in tqdm(valid_loader):
+  for image,label in valid_loader:
       #x = image.to(device)
       x = image.cuda()
       #y_= label.to(device)

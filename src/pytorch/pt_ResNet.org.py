@@ -7,7 +7,7 @@ import torch.utils.data as data
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
-from tqdm import tqdm
+#from tqdm import tqdm
 
 #batch_size= 1
 batch_size = 32
@@ -183,7 +183,8 @@ correct = 0
 total = 0
 
 with torch.no_grad():
-  for image,label in tqdm(valid_loader):
+  #for image,label in tqdm(valid_loader):
+  for image,label in valid_loader:
       x = image.to(device)
       y_= label.to(device)
 
