@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 import numpy as np
-import matplotlib.pylab as plt
+#import matplotlib.pylab as plt
 
 # 훈련 셋, 검증 셋 저장위치 지정
 train_dir = "/scratch/qualis/dataset/training_set/training_set"

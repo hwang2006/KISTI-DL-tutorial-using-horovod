@@ -4,7 +4,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 import numpy as np
-import matplotlib.pylab as plt
+#import matplotlib.pylab as plt
 
 from tensorflow import keras
 import horovod.tensorflow.keras as hvd
