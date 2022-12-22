@@ -436,7 +436,7 @@ HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOR
 module load singularity/3.9.7
 
 srun singularity exec --nv /apps/applications/singularity_images/ngc/tensorflow_22.03-tf2-py3.sif \
-             python tf_keras_fashion_mnist.py
+             python KISTI-DL-tutorial-using-horovod/src/tensorflow/tf_keras_fashion_mnist.py
 ```
 2. submit and execute the batch job:
 ```
