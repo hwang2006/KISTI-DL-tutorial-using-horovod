@@ -378,7 +378,7 @@ Singularity is a container platform desinged for HPC environments, as opposed to
 ## Running Horovod interactively using Singularity
 You don't have to bother to deal with all the hassles of the Conda and Horovod, and just request an allocation of available nodes using the Slurm salloc command and run a proper singularity container built on Neuron. That's it!
 ```
-[glogin01]$ salloc --partition=amd_a100nv_8 -J debug --nodes=2 --time=2:00:00 --gres=gpu:4 –comment=pytorch
+[glogin01]$ salloc --partition=amd_a100nv_8 -J debug --nodes=2 --time=2:00:00 --gres=gpu:4 --comment=pytorch
 
 # to run NVIDIA NGC tensorflow container
 [gpu32]$ srun -n 8 singularity exec --nv /apps/applications/singularity_images/ngc/tensorflow_22.03-tf2-py3.sif python $GIT_DIR/KISTI-DL-tutorial-using-horovod/src/tensorflow/tf_keras_imagenet_resnet50.py
