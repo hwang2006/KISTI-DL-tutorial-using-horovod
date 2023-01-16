@@ -17,7 +17,6 @@ This repository is intended to promote large-scale distributed deep learning pra
 * [Running Horovod interactively using Singularity](#running-horovod-interactively-using-singularity)
 * [Building a Horovod Singularity Container image on your scratch directory](#building-a-horovod-singularity-container-image-on-your-scratch-directory)
 * [Submitting and Monitoring a Horovod batch job using Singularity](#submitting-and-monitoring-a-horovod-batch-job-using-singularity)
-* [Singularity Directories on Neuron](#singularity-directories-on-neuron)
 
 ## KISTI Neuron GPU Cluster
 Neuron is a KISTI GPU cluster system consisting of 65 nodes with 260 GPUs (120 of NVIDIA A100 GPUs and 140 of NVIDIA V100 GPUs). [Slurm](https://slurm.schedmd.com/) is adopted for cluster/resource management and job scheduling.
