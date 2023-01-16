@@ -1,6 +1,26 @@
 # Distributed deep learning using Horovod on Neuron
 
-This repo is intended to guide users to run his/her distributed deep learning codes on multiple GPU nodes using [Horovod](https://github.com/horovod/horovod) on Neuron. Neuron is a KISTI GPU cluster system consisting of 65 nodes with 260 GPUs (120 of NVIDIA A100 GPUs and 140 of NVIDIA V100 GPUs). [Slurm](https://slurm.schedmd.com/) is adopted for cluster/resource management and job scheduling.
+This repository is intended to promote large-scale distributed deep learning practices and guide users to run his/her distributed deep learning codes on multiple GPU nodes using [Horovod](https://github.com/horovod/horovod) on Neuron. 
+
+**Contents**
+* [KISTI Neuron GPU Cluster](#kisti-neuron-gpu-cluster)
+* [Some motivational thoughts on large-scale distributed training on supercompuer](#some-motivational-thoughts-on-large-scale-distributed-training-on-supercompuer)
+* [Distributed DL training practices on supercomputer](#distributed-dl-training-practices-on-supercomputer)
+* [Installing Conda](#installing-conda)
+* [Why Horovod for distributed DL](#why-horovod-for-distributed-dl?)
+* [Building Horovod](#building-horovod)
+* [Horovod Usage](#horovod-usage)
+* [Horovod Example](#horovod-example)
+* [Running Horovod interactively](#running-horovod-interactively)
+* [Submitting and Monitoring a Horovod batch job](#submitting-and-monitoring-a-horovod-batch-job)
+* [Why Singularity Container](#why-singularity-container)
+* [Running Horovod interactively using Singularity](#running-horovod-interactively-using-singularity)
+* [Building a Horovod Singularity Container image on your scratch directory](#building-a-horovod-singularity-container-image-on-your-scratch-directory)
+* [Submitting and Monitoring a Horovod batch job using Singularity](#submitting-and-monitoring-a-horovod-batch-job-using-singularity)
+* [Singularity Directories on Neuron](#singularity-directories-on-neuron)
+
+## KISTI Neuron GPU Cluster
+Neuron is a KISTI GPU cluster system consisting of 65 nodes with 260 GPUs (120 of NVIDIA A100 GPUs and 140 of NVIDIA V100 GPUs). [Slurm](https://slurm.schedmd.com/) is adopted for cluster/resource management and job scheduling.
 
 <p align="center"><img src="https://user-images.githubusercontent.com/84169368/205237254-b916eccc-e4b7-46a8-b7ba-c156e7609314.png"/></p>
 
@@ -20,7 +40,7 @@ This repo is intended to guide users to run his/her distributed deep learning co
   - Is it because of the traditonal batch-schduling based services?
   - ??
   
-## Distributed training workflow on supercomputer
+## Distributed DL training practices on supercomputer
 We may need to set up some ditributed deep learning routines or workflows by which DL researchers and Supercomputer facilities administrators exchange and share ideas and thoughts as to how to develope and run distributed training/inferencing practices on national supercomputing facilites. It might be that distributed deep learning (DL) practices on national supercomputing facilities are not so hard as we think it is, with proper tools, flexible operation & resource management policies and reasonably easy-to-use services available in the hands of DL researchers and developers. 
  
 <p align="center"><img src="https://user-images.githubusercontent.com/84169368/205277236-bed745ef-c684-4e65-a87d-9819e118eb4a.png" width=550/></p> 
