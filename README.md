@@ -7,7 +7,7 @@ This repository is intended to promote large-scale distributed deep learning pra
 * [Some motivational thoughts on large-scale distributed training on supercompuer](#some-motivational-thoughts-on-large-scale-distributed-training-on-supercompuer)
 * [Distributed DL training practices on supercomputer](#distributed-dl-training-practices-on-supercomputer)
 * [Installing Conda](#installing-conda)
-* [Why Horovod for distributed DL](#why-horovod-for-distributed-dl?)
+* [Why Horovod for distributed DL](#why-horovod-for-distributed-dl)
 * [Building Horovod](#building-horovod)
 * [Horovod Usage](#horovod-usage)
 * [Horovod Example](#horovod-example)
@@ -150,7 +150,7 @@ Thank you for installing Miniconda3!
 conda 4.12.0
 ```
 
-## Why Horovod for distributed DL?
+## Why Horovod for distributed DL
 Horovod, developed by Uber in 2017, is a distributed deep learning training framework, aimed to make it easy and simple to take a DL code developed with different DL frameworks like Tensorflow and Pytorch and scale it to run across many GPUs. It is designed with having the followings in mind in the first place:
 1. (neutral to DL frameworks to be used) Is it possible to make your DL codes run in parallel irrespective of whether you are using Tensorflow, Keras or Pytorch?    
 2. (easy to use & codify) How much modification does one have to make to a existing DL code to make it distributed? and how easy is it to run it?
@@ -353,7 +353,7 @@ In this example case, gpu32 and gpu33 are allocated with 4 GPUs each, and you ar
 # (option 2) run with horovodrun using gloo collective communications
 (horovod) [gpu32]$ horovodrun --gloo -np 2 -H gpu33:2 python train_hvd.py
 ```
-## Submitting & Monitoring a Horovod batch job
+## Submitting and Monitoring a Horovod batch job
 1. edit a batch job script running on 2 nodes with 8 GPUs each:
 ```
 [glogin01]$ cat ./horovod_batsh.sh
@@ -437,7 +437,7 @@ HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOR
 [gpu32]$ srun -n 8 singularity exec --nv tensorflow-pytorch-horovod.sif python KISTI-DL-tutorial-using-horovod/src/pytorch/pytorch_imagenet_resnet50.py
 ```
 
-## Submitting & Monitoring a Horovod batch job using Singularity 
+## Submitting and Monitoring a Horovod batch job using Singularity 
 1. edit a batch job script running on 2 nodes with 8 GPUs each:
 ```
 [glogin01]$ cat ./singularity_horovod_batsh.sh
