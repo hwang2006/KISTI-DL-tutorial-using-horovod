@@ -384,6 +384,8 @@ srun python tf_keras_fashion_mnist.py
 (horovod) [glogin01]$ squeue -u $USER
 ```
 
+## Running Jupyter 
+
 ## Why Singularity Container? 
 Singularity is a container platform desinged for HPC environments, as opposed to Docker designed for IT environments.
 - Each conatiner is a single image file
