@@ -385,9 +385,35 @@ srun python tf_keras_fashion_mnist.py
 ```
 
 ## Running Jupyter 
+[Jupyter](https://jupyter.org/) is free software, open standards, and web services for interactive computing across all programming languages. Jupyterlab is the latest web-based interactive development environment for notebooks, code, and data. Its flexible interface allows users to configure and arrange workflows in data science, scientific computing, computational journalism, and machine learning. The Jupyter Notebook is the original web application for creating and sharing computational documents. It offers a simple, streamlined, document-centric experience.
+<br/><br/>
+You will run a notebook server on a worker node (*not* on a login node), which will be accessed from the browser on your PC or labtop through SSH tunneling. In order to do so, you need to add the horovod-enabled virtual envrionment that you have created as a python kernel.
+1. activate the virtual environment:
+```
+[glogin01]$ conda activate horovod
+```
+2. install jupyter on the virtual environment:
+```
+(horovod) [glogin01]$ conda install jupyter 
+(horovod) [glogin01]$ pip install jupyter-tensorboard
+```
+3. add the virtual environment as a jupyter kernel:
+```
+(horovod) [glogin01]$ pip install ipykernel 
+(horovod) [glogin01]$ python -m ipykernel install --user --name horovod
+```
+4. check the list of kernels currently installed:
+```
+(horovod) [glogin01]$ jupyter kernelspec list
+Available kernels:
+python3       /home01/$USER/.local/share/jupyter/kernels/python3
+horovod       /home01/$USER/.local/share/jupyter/kernels/horovod
+```
+5. launch a jupyter notebook server on a worker node  
+
 
 ## Why Singularity Container? 
-Singularity is a container platform desinged for HPC environments, as opposed to Docker designed for IT environments.
+[Singularity](https://sylabs.io/) is a container platform desinged for HPC environments, as opposed to Docker designed for IT environments.
 - Each conatiner is a single image file
 - No root owned daemon processes
 - Support share/multi-tenant resource environment
