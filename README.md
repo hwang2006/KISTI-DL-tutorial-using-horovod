@@ -393,7 +393,7 @@ You will run a notebook server on a worker node (*not* on a login node), which w
 ```
 [glogin01]$ conda activate horovod
 ```
-2. install jupyter on the virtual environment:
+2. install Jupyter on the virtual environment:
 ```
 (horovod) [glogin01]$ conda install jupyter 
 (horovod) [glogin01]$ pip install jupyter-tensorboard
