@@ -363,10 +363,10 @@ In this example case, gpu32 and gpu33 are allocated with 4 GPUs each, and you ar
 #SBATCH -p amd_a100nv_8 # partition name (queue or class)
 #SBATCH --nodes=2 # the number of nodes
 #SBATCH --ntasks-per-node=8 # number of tasks per node
+#SBATCH --gres=gpu:8 # number of GPUs per node
 #SBATCH --cpus-per-task=4 # number of cpus per task
 #SBATCH -o %x_%j.out
 #SBATCH -e %x_%j.err
-#SBATCH --gres=gpu:8 # number of GPUs per node
 
 module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1
 
@@ -447,10 +447,10 @@ HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOR
 #SBATCH -p amd_a100nv_8 # partition name (queue or class)
 #SBATCH --nodes=2 # the number of nodes
 #SBATCH --ntasks-per-node=8 # number of tasks per node
+#SBATCH --gres=gpu:8 # number of GPUs per node
 #SBATCH --cpus-per-task=4 # number of cpus per task
 #SBATCH -o %x_%j.out
 #SBATCH -e %x_%j.err
-#SBATCH --gres=gpu:8 # number of GPUs per node
 
 module load singularity/3.9.7
 
