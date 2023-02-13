@@ -411,9 +411,12 @@ python3       /home01/$USER/.local/share/jupyter/kernels/python3
 horovod       /home01/$USER/.local/share/jupyter/kernels/horovod
 ```
 5. launch a jupyter notebook server on a worker node 
-- to create a batch script for launching a jupyter notebook server: 
+- to deactivate the virtual environment
 ```
 (horovod) [glogin01]$ conda deactivate
+```
+- to create a batch script for launching a jupyter notebook server: 
+```
 [glogin01]$ cat jupyter_run.sh
 #!/bin/bash
 #SBATCH --comment=tensorflow
