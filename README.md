@@ -13,6 +13,7 @@ This repository is intended to promote large-scale distributed deep learning pra
 * [Horovod Example](#horovod-example)
 * [Running Horovod interactively](#running-horovod-interactively)
 * [Submitting and Monitoring a Horovod batch job](#submitting-and-monitoring-a-horovod-batch-job)
+* [Running Jupyter](#running-jupyter)
 * [Why Singularity Container](#why-singularity-container)
 * [Running Horovod interactively using Singularity](#running-horovod-interactively-using-singularity)
 * [Building a Horovod Singularity Container image on your scratch directory](#building-a-horovod-singularity-container-image-on-your-scratch-directory)
@@ -445,11 +446,11 @@ module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1
 echo "execute jupyter"
 source ~/.bashrc
 conda activate horovod
-cd /scratch/$USER     # the root/work directory of Jupyter lab/notebook
+cd /scratch/$USER     # the root/work directory of the jupyter lab/notebook to be launched
 jupyter lab --ip=0.0.0.0 --port=${PORT_JU} --NotebookApp.token=${USER} #jupyter token: your user name
 echo "end of the job"
 ```
-- to launch a Jupyter notebook server 
+- to launch a jupyter notebook server 
 ```
 [glogin01]$ sbatch jupyter_run.sh
 ```
@@ -465,9 +466,9 @@ Warning: Permanently added the ECDSA host key for IP address '150.183.150.101' t
 Password(OTP):
 Password:
 ```
-7. open a web browser on your PC or laptop to access the Jupyter server:
+7. open a web browser on your PC or laptop to access the jupyter server:
 ```
-URL: localhost:8888
+URL Address: localhost:8888
 Password or token: $USER    # your account ID on Neuron
 ```
 
