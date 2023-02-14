@@ -477,7 +477,7 @@ Submitted batch job XXXXXX
 [glogin01]$ cat port_forwarding_command
 ssh -L localhost:8888:gpu##:##### $USER@neuron.ksc.re.kr
 ```
-6. open a SSH client (e.g., Putty, PowerShell, Command Prompt, etc) on your PC or laptop and log in to Neuron just by typing the port forwarding command:
+6. open a SSH client (e.g., Putty, PowerShell, Command Prompt, etc) on your PC or laptop and log in to Neuron just by copying and pasting the port_forwarding_command:
 ```
 C:\Users\hwang>ssh -L localhost:8888:gpu##:##### $USER@neuron.ksc.re.kr
 Password(OTP):
