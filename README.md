@@ -370,19 +370,19 @@ In this example case, gpu32 and gpu33 are allocated with 4 GPUs each, and you ar
 #SBATCH -e %x_%j.err
 
 module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1
+source ~/.bashrc
+conda activate horovod
 
-##srun python KISTI-DL-tutorial-using-horovod/src/tensorflow/tf_keras_fashion_mnist.py
+#srun python KISTI-DL-tutorial-using-horovod/src/tensorflow/tf_keras_fashion_mnist.py
 srun python tf_keras_fashion_mnist.py
 ```
 2. submit and execute the batch job:
 ```
-# Note that you need to activate the horovod environment first and then submit the batch script
-[glogin01]$ conda activate horovod
-(horovod) [glogin01]$ sbatch ./horovod_batch.sh
+[glogin01]$ sbatch ./horovod_batch.sh
 ```
 3. check & monitor the batch job status:
 ```
-(horovod) [glogin01]$ squeue -u $USER
+[glogin01]$ squeue -u $USER
 ```
 
 ## Running Jupyter 
