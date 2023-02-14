@@ -156,7 +156,7 @@ Horovod, developed by Uber in 2017, is a distributed deep learning training fram
 2. (easy to use & codify) How much modification does one have to make to a existing DL code to make it distributed? and how easy is it to run it?
 3. (fast to run) How much faster would it run in distributed mode and how easy is it to scale up to run?
 
-<p align="center"><img src="https://user-images.githubusercontent.com/84169368/206370237-8e2f481d-cee3-453d-8ece-ef1ebd60b142.png" width=800/></p> 
+<p align="center"><img src="https://user-images.githubusercontent.com/84169368/206370237-8e2f481d-cee3-453d-8ece-ef1ebd60b142.png" width=750/></p> 
 
 ## Building Horovod
 Now you are ready to build Horovod as a conda virtual environment: 
