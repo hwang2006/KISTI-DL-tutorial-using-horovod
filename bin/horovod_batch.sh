@@ -11,6 +11,8 @@
 #SBATCH -e %x_%j.err
 
 module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1
+source ~/.bashrc
+conda activate horovod
 
-##srun python KISTI-DL-tutorial-using-horovod/src/tensorflow/tf_keras_fashion_mnist.py
+#srun python KISTI-DL-tutorial-using-horovod/src/tensorflow/tf_keras_fashion_mnist.py
 srun python tf_keras_fashion_mnist.py
