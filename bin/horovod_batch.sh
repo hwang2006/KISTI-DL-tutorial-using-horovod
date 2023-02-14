@@ -1,5 +1,5 @@
 #!/bin/sh
-#SBATCH -J python # job name
+##SBATCH -J python # job name
 #SBATCH --time=24:00:00 # walltime 
 #SBATCH --comment=pytorch # application name
 #SBATCH -p amd_a100nv_8 # partition name (queue or class)
