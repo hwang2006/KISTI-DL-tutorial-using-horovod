@@ -488,7 +488,7 @@ C:\Users\hwang>ssh -L localhost:8888:gpu##:##### $USER@neuron.ksc.re.kr
 Password(OTP):
 Password:
 ```
-7. open a web browser on your PC or laptop to access the jupyter server:
+7. open a web browser on your PC or laptop to access the jupyter server
 ```
 URL Address: localhost:8888
 Password or token: $USER    # your account ID on Neuron
