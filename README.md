@@ -356,7 +356,7 @@ In this example case, gpu32 and gpu33 are allocated with 4 GPUs each, and you ar
 ## Submitting and Monitoring a Horovod batch job
 1. edit a batch job script running on 2 nodes with 8 GPUs each:
 ```
-[glogin01]$ cat ./horovod_batsh.sh
+[glogin01]$ cat horovod_batsh.sh
 #!/bin/sh
 ##SBATCH -J python # job name
 #SBATCH --time=24:00:00 # walltime
@@ -378,7 +378,7 @@ srun python tf_keras_fashion_mnist.py
 ```
 2. submit and execute the batch job:
 ```
-[glogin01]$ sbatch ./horovod_batch.sh
+[glogin01]$ sbatch horovod_batch.sh
 Submitted batch job 169608
 ```
 3. check & monitor the batch job status:
