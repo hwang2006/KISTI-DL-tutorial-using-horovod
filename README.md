@@ -493,7 +493,7 @@ Password:
 URL Address: localhost:8888
 Password or token: $USER    # your account ID on Neuron
 ```
-<p align="center"><img src=" " width=650/></p> 
+<p align="center"><img src="https://user-images.githubusercontent.com/84169368/218938419-f38c356b-e682-4b1c-9add-6cfc29d53425.png"/></p> 
 
 ## Why Singularity Container? 
 [Singularity](https://sylabs.io/) is a container platform desinged for HPC environments, as opposed to Docker designed for IT environments.
@@ -550,7 +550,7 @@ HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOR
 ## Submitting and Monitoring a Horovod batch job using Singularity 
 1. edit a batch job script running on 2 nodes with 8 GPUs each:
 ```
-[glogin01]$ cat ./singularity_horovod_batsh.sh
+[glogin01]$ cat singularity_horovod_batch.sh
 #!/bin/sh
 #SBATCH -J python # job name
 #SBATCH --time=24:00:00 # walltime
@@ -571,7 +571,7 @@ srun singularity exec --nv /apps/applications/singularity_images/ngc/tensorflow_
 2. submit and execute the batch job:
 ```
 # Note: You don't have to activate the conda environment here
-[glogin01]$ sbatch ./singularity_horovod_batch.sh
+[glogin01]$ sbatch singularity_horovod_batch.sh
 ```
 3. check & monitor the batch job status:
 ```
