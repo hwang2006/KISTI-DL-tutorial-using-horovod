@@ -437,7 +437,7 @@ then
   rm port_forwarding_command
 fi
 
-#getting the port and node name
+#getting the node name and port
 SERVER="`hostname`"
 PORT_JU=$(($RANDOM + 10000 )) # some random number greaten than 10000
 
