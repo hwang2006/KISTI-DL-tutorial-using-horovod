@@ -493,6 +493,7 @@ Password:
 URL Address: localhost:8888
 Password or token: $USER    # your account ID on Neuron
 ```
+<p align="center"><img src=" " width=650/></p> 
 
 ## Why Singularity Container? 
 [Singularity](https://sylabs.io/) is a container platform desinged for HPC environments, as opposed to Docker designed for IT environments.
