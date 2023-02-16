@@ -520,9 +520,9 @@ You don't have to bother to deal with all the hassles of the Conda and Horovod, 
 [gpu32]$ srun -n 8 singularity exec --nv /apps/applications/singularity_images/ngc/pytorch_22.03-hd-py3.sif python KISTI-DL-tutorial-using-horovod/src/pytorch/pytorch_imagenet_resnet50.py
 ```
 ## Building a Horovod Singularity Container image on your scratch directory 
-You can also build your own Horovod Singularity container with both Tensorflow and Pytorch enabled. In order to build a Singularity container on Neuron, you need to have a fakeroot permission that you can get by requesting it to the system administrator.  
+You can build your own Horovod Singularity container image with both Tensorflow and Pytorch enabled. In order to build a Singularity container on Neuron, you need to have a fakeroot permission that you can get by requesting it to the system administrator.  
 ```
-# build a Pytorch image from the NGC Docker Container repository
+# build a Pytorch image from the NGC Docker Container repository 
 [glogin01]$ singularity build --fakeroot pytorch_22.11-py3.sif docker://nvcr.io/nvidia/pytorch:22.11-py3
 
 # create a Singularity recipe file
@@ -540,8 +540,13 @@ HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITH_PYTORCH=1 HOR
 
 # build a Horovod container image
 [glogin01]$ singularity build --fakeroot tensorflow-pytorch-horovod.sif horovod.def
-
-# run the Horovod container 
+```
+You can also build it from the horovod-enabled docker image that I have created in my docker repository.      
+```
+[glogin01]$ singularity build --fakeroot tensorflow-pytorch-horovod.sif docker://qualis2006/tensorflow-pytorch-horovod:tf2.10_pt1.13
+```
+Now, you can run your own Horovod container. 
+```
 [gpu32]$ srun -n 8 singularity exec --nv tensorflow-pytorch-horovod.sif python KISTI-DL-tutorial-using-horovod/src/tensorflow/tf_keras_imagenet_resnet50.py
 [gpu32]$ srun -n 8 singularity exec --nv tensorflow-pytorch-horovod.sif python KISTI-DL-tutorial-using-horovod/src/keras/keras_imagenet_resnet50.py
 [gpu32]$ srun -n 8 singularity exec --nv tensorflow-pytorch-horovod.sif python KISTI-DL-tutorial-using-horovod/src/pytorch/pytorch_imagenet_resnet50.py
