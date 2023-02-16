@@ -10,7 +10,6 @@ This repository is intended to promote large-scale distributed deep learning pra
 * [Why Horovod for distributed DL](#why-horovod-for-distributed-dl)
 * [Building Horovod](#building-horovod)
 * [Horovod Usage](#horovod-usage)
-* [Horovod Example](#horovod-example)
 * [Running Horovod interactively](#running-horovod-interactively)
 * [Submitting and Monitoring a Horovod batch job](#submitting-and-monitoring-a-horovod-batch-job)
 * [Running Jupyter](#running-jupyter)
@@ -258,9 +257,7 @@ if hvd.rank() == 0:
    state = {'model': model.state_dict(), 'optimizer': optimizer.state_dict(), } 
    torch.save(state, filepath)
 ```
-
-## Horovod Example
-An example code using Pytorch (see the [src](https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/tree/main/src) directory for full example codes): 
+6. An example code using Pytorch (see the [src](https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/tree/main/src) directory for full example codes): 
 ```
 import torch
 import horovod.torch as hvd
