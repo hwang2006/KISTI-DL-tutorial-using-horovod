@@ -29,6 +29,7 @@ echo "ssh -L localhost:8888:${SERVER}:${PORT_JU} ${USER}@neuron.ksc.re.kr"
 #echo "load module-environment"
 #module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1
 
+
 echo "execute jupyter"
 #source ~/.bashrc
 #conda activate tf-nlp
