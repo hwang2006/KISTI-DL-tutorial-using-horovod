@@ -7,9 +7,6 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 
-import socket
-import horovod.torch as hvd
-
 
 class Net(nn.Module):
     def __init__(self):
@@ -53,13 +50,8 @@ def train(args, model, device, train_loader, optimizer, epoch):
             if args.dry_run:
                 break
 
-def metric_average(val, name):
-    tensor = torch.tensor(val)
-    avg_tensor = hvd.allreduce(tensor, name=name)
-    return avg_tensor.item()
 
-
-def test(model, device, test_loader, test_sampler):
+def test(model, device, test_loader):
     model.eval()
     test_loss = 0
     correct = 0
@@ -71,26 +63,11 @@ def test(model, device, test_loader, test_sampler):
             pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
             correct += pred.eq(target.view_as(pred)).sum().item()
 
-    #test_loss /= len(test_loader.dataset)
-    # Horovod: use test_sampler to determine the number of examples in
-    # this worker's partition.
-    test_loss /= len(test_sampler)
-    accuracy = correct / len(test_sampler)
+    test_loss /= len(test_loader.dataset)
 
-    # Horovod: average metric values across workers.
-    test_loss = metric_average(test_loss, 'avg_loss')
-    test_accuracy = metric_average(accuracy, 'avg_accuracy')
-
-    total_correct = hvd.allreduce(torch.tensor(correct), average=False)
-
-	# Horovod: print output only on first rank.
-    if hvd.rank() == 0:
-    	#print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
-    	print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.1f}%)\n'.format(
-        	#test_loss, test_accuracy, len(test_loader.dataset),
-        	test_loss, total_correct, len(test_loader.dataset),
-        	#100. * test_accuracy / len(test_loader.dataset)))
-        	100. * test_accuracy ))
+    print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
+        test_loss, correct, len(test_loader.dataset),
+        100. * correct / len(test_loader.dataset)))
 
 
 def main():
@@ -98,7 +75,6 @@ def main():
     parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
     parser.add_argument('--batch-size', type=int, default=32, metavar='N',
                         help='input batch size for training (default: 32)')
-    #parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
     parser.add_argument('--test-batch-size', type=int, default=32, metavar='N',
                         help='input batch size for testing (default: 32)')
     parser.add_argument('--epochs', type=int, default=10, metavar='N',
@@ -125,16 +101,6 @@ def main():
 
     torch.manual_seed(args.seed)
 
-    # Horovod: initialize library.
-    hvd.init()
-    print('************* hvd.size:', hvd.size(),'hvd.rank:', hvd.rank(),\
-        'hvd.local_rank:', hvd.local_rank(), 'hostname:', socket.gethostname())
-
-    if use_cuda:
-        # Horovod: pin GPU to local rank.
-        torch.cuda.set_device(hvd.local_rank())
-        torch.cuda.manual_seed(args.seed)
-
     if use_cuda:
         device = torch.device("cuda")
     elif use_mps:
@@ -145,11 +111,9 @@ def main():
     train_kwargs = {'batch_size': args.batch_size}
     test_kwargs = {'batch_size': args.test_batch_size}
     if use_cuda:
-        #cuda_kwargs = {'num_workers': 1,
-        #               'pin_memory': True,
-        #               'shuffle': True}
-        cuda_kwargs = {'num_workers': 4,
-                       'pin_memory': True}
+        cuda_kwargs = {'num_workers': 1,
+                       'pin_memory': True,
+                       'shuffle': True}
         train_kwargs.update(cuda_kwargs)
         test_kwargs.update(cuda_kwargs)
 
@@ -161,43 +125,16 @@ def main():
                        transform=transform)
     dataset2 = datasets.MNIST('./data', train=False,
                        transform=transform)
-
-    # Horovod: use DistributedSampler to partition the training data.
-    train_sampler = torch.utils.data.distributed.DistributedSampler(
-        dataset1, num_replicas=hvd.size(), rank=hvd.rank())
-    test_sampler = torch.utils.data.distributed.DistributedSampler(
-        dataset2, num_replicas=hvd.size(), rank=hvd.rank())
-   
-    #train_loader = torch.utils.data.DataLoader(dataset1, **train_kwargs)
-    train_loader = torch.utils.data.DataLoader(dataset1, sampler=train_sampler, **train_kwargs)
-    #test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
-    test_loader = torch.utils.data.DataLoader(dataset2, sampler=test_sampler, **test_kwargs)
+    train_loader = torch.utils.data.DataLoader(dataset1,**train_kwargs)
+    test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
 
     model = Net().to(device)
-    #optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
-    optimizer = optim.Adadelta(model.parameters(), lr=args.lr * hvd.size())
-
-    # Horovod: wrap optimizer with DistributedOptimizer.
-    optimizer = hvd.DistributedOptimizer(optimizer,
-                                         named_parameters=model.named_parameters(),
-										 op=hvd.Average)
+    optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
-
-	# Horovod: broadcast parameters & optimizer state. 
-    hvd.broadcast_parameters(model.state_dict(), root_rank=0)
-    hvd.broadcast_optimizer_state(optimizer, root_rank=0)
-
-
-    # Horovod: wrap optimizer with DistributedOptimizer.
-    #optimizer = hvd.DistributedOptimizer(optimizer,
-    #                                     named_parameters=model.named_parameters(),
-    #                                     op= hvd.Average)
-   
     for epoch in range(1, args.epochs + 1):
         train(args, model, device, train_loader, optimizer, epoch)
-        #test(model, device, test_loader)
-        test(model, device, test_loader, test_sampler)
+        test(model, device, test_loader)
         scheduler.step()
 
     if args.save_model:
