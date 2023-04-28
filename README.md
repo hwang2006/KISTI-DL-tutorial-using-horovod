@@ -621,7 +621,8 @@ lammps:29Oct2020.sif*           tensorflow:20.01-tf1-py3.sif*           tensorfl
 [glogin01]$ cd /apps/applications/singularity_images/imagenet/val
 ```
 
-
+## A glimpse of Pytorch Lightning
+[Pytorch Lightning](https://www.pytorchlightning.ai/index.html) is a lightweight wrapper or interface on top of PyTorch, which simplifies the implementation of complex deep learning models. It is a PyTorch extension that enables researchers and practitioners to focus more on their research and less on the engineering aspects of deep learning. PyTorch Lightning automates many of the routine tasks, such as distributing training across multiple GPUs, logging, and checkpointing, so that the users can focus on writing high-level code for their models.
 
 
 
