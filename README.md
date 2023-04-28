@@ -17,6 +17,7 @@ This repository is intended to promote large-scale distributed deep learning pra
 * [Running Horovod interactively using Singularity](#running-horovod-interactively-using-singularity)
 * [Building a Horovod Singularity Container image on your scratch directory](#building-a-horovod-singularity-container-image-on-your-scratch-directory)
 * [Submitting and Monitoring a Horovod batch job using Singularity](#submitting-and-monitoring-a-horovod-batch-job-using-singularity)
+* [A glimpse of Pytorch Lightning](#a-glimpse-of-pytorch-lightning)
 
 ## KISTI Neuron GPU Cluster
 Neuron is a KISTI GPU cluster system consisting of 65 nodes with 260 GPUs (120 of NVIDIA A100 GPUs and 140 of NVIDIA V100 GPUs). [Slurm](https://slurm.schedmd.com/) is adopted for cluster/resource management and job scheduling.
@@ -650,11 +651,15 @@ salloc: Nodes gpu[32-33] are ready for job
 ```
 - to run on the two nodes with 2 GPUs each
 ```
-(horovod) [gpu32]$ srun -N 2 --ntasks-per-node=4 python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py --num_nodes 2 --devices 2
+(horovod) [gpu32]$ srun -N 2 --ntasks-per-node=2 python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py --num_nodes 2 --devices 2
 ```
 - to run one node with 4 GPUs
 ```
 (horovod) [gpu32]$ python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py 
+```
+- to run one node with 2 GPUs
+```
+(horovod) [gpu32]$ python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py --devices 2
 ```
 
 
