@@ -625,15 +625,37 @@ lammps:29Oct2020.sif*           tensorflow:20.01-tf1-py3.sif*           tensorfl
 [Pytorch Lightning](https://www.pytorchlightning.ai/index.html) is a lightweight wrapper or interface on top of PyTorch, which simplifies the implementation of complex deep learning models. It is a PyTorch extension that enables researchers and practitioners to focus more on their research and less on the engineering aspects of deep learning. PyTorch Lightning automates many of the routine tasks, such as distributing training across multiple GPUs, logging, and checkpointing, so that the users can focus on writing high-level code for their models.
 
 We will show a glimpse of how to run a simple pytorch lightning code on multiple nodes interactively.
-1. Install Pytorch Lightning
+1. Install Pytorch Lightning:
 ```
 [glogin01]$ conda activate horovod
 (horovod) [glogin01]$ pip install lightning
 ```
-
-
-
-
+2. request allocation of available GPU-nodes:
+```
+(horovod) [glogin01]$ salloc --partition=amd_a100nv_8 -J debug --nodes=2 --time=8:00:00 --gres=gpu:4 --comment=python
+salloc: Granted job allocation 154173
+salloc: Waiting for resource configuration
+salloc: Nodes gpu[32-33] are ready for job
+```
+3. load modules and activate the horovod conda environment:
+```
+[gpu32]$ module load gcc/10.2.0 cuda/11.4 cudampi/openmpi-4.1.1
+[gpu32]$ $ conda activate horovod
+(horovod) [gpu32]$
+```
+4. run pytorch a lightning code:
+- to run on the two nodes with 4 GPUs each
+```
+(horovod) [gpu32]$ srun -N 2 --ntasks-per-node=4 python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py --num_nodes 2
+```
+- to run on the two nodes with 2 GPUs each
+```
+(horovod) [gpu32]$ srun -N 2 --ntasks-per-node=4 python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py --num_nodes 2 --devices 2
+```
+- to run one node with 4 GPUs
+```
+(horovod) [gpu32]$ python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py 
+```
 
 
 
