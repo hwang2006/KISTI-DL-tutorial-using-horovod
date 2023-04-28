@@ -7,8 +7,8 @@ $ srun -N 2 --ntasks-per-node=2 python pt_mnist_lightning.py --num_nodes 2
 '''
 
 import os
-import pandas as pd
-import seaborn as sn
+#import pandas as pd
+#import seaborn as sn
 from IPython.display import display
 
 # Pytorch modules
