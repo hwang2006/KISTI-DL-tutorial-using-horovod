@@ -17,7 +17,7 @@ This repository is intended to promote large-scale distributed deep learning pra
 * [Running Horovod interactively using Singularity](#running-horovod-interactively-using-singularity)
 * [Building a Horovod Singularity Container image on your scratch directory](#building-a-horovod-singularity-container-image-on-your-scratch-directory)
 * [Submitting and Monitoring a Horovod batch job using Singularity](#submitting-and-monitoring-a-horovod-batch-job-using-singularity)
-* [A glimpse of Pytorch Lightning](#a-glimpse-of-pytorch-lightning)
+* [A glimpse of Running Pytorch Lightning](#a-glimpse-of-running-pytorch-lightning)
 
 ## KISTI Neuron GPU Cluster
 Neuron is a KISTI GPU cluster system consisting of 65 nodes with 260 GPUs (120 of NVIDIA A100 GPUs and 140 of NVIDIA V100 GPUs). [Slurm](https://slurm.schedmd.com/) is adopted for cluster/resource management and job scheduling.
@@ -622,7 +622,7 @@ lammps:29Oct2020.sif*           tensorflow:20.01-tf1-py3.sif*           tensorfl
 [glogin01]$ cd /apps/applications/singularity_images/imagenet/val
 ```
 
-## A glimpse of Pytorch Lightning
+## A glimpse of Running Pytorch Lightning
 [Pytorch Lightning](https://www.pytorchlightning.ai/index.html) is a lightweight wrapper or interface on top of PyTorch, which simplifies the implementation of complex deep learning models. It is a PyTorch extension that enables researchers and practitioners to focus more on their research and less on the engineering aspects of deep learning. PyTorch Lightning automates many of the routine tasks, such as distributing training across multiple GPUs, logging, and checkpointing, so that the users can focus on writing high-level code for their models.
 
 We will show a glimpse of how to run a simple pytorch lightning code on multiple nodes interactively.
