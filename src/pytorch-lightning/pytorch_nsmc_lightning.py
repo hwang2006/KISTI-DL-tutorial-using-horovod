@@ -116,7 +116,7 @@ class Model(LightningModule):
             'y_pred': y_pred,
         }
 
-    def on_validation_epoch_end(self, outputs):
+    def validation_epoch_end(self, outputs):
         loss = torch.tensor(0, dtype=torch.float)
         for i in outputs:
             loss += i['loss'].cpu().detach()
