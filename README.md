@@ -644,9 +644,10 @@ salloc: Nodes gpu[32-33] are ready for job
 [gpu32]$ $ conda activate horovod
 (horovod) [gpu32]$
 ```
-4. run pytorch a lightning code:
+4. run a pytorch lightning code:
 - to run on the two nodes with 4 GPUs each
 ```
+# Pytorch Lightning exits with some error messages when running with the -n (--ntasks) option, so you need to use --ntasks-per-node instead
 (horovod) [gpu32]$ srun -N 2 --ntasks-per-node=4 python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py --num_nodes 2
 ```
 - to run on the two nodes with 2 GPUs each
