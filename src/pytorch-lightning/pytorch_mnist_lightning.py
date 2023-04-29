@@ -9,7 +9,7 @@ $ srun -N 2 --ntasks-per-node=2 python pt_mnist_lightning.py --num_nodes 2
 import os
 #import pandas as pd
 #import seaborn as sn
-from IPython.display import display
+#from IPython.display import display
 
 # Pytorch modules
 import torch
@@ -168,7 +168,7 @@ if __name__ ==  '__main__':
     parser = ArgumentParser()
     parser.add_argument("--accelerator", default="gpu" if torch.cuda.is_available() else "auto")
     parser.add_argument("--devices", default=torch.cuda.device_count() if torch.cuda.is_available() else 1)
-    parser.add_argument("--strategy", default="auto")
+    parser.add_argument("--strategy", default="ddp" if torch.cuda.is_available() else "auto")
     parser.add_argument("--num_nodes", default=1)
     args = parser.parse_args()
 
