@@ -5,6 +5,8 @@ $ git clone https://github.com/e9t/nsmc
 # install packages
 $ pip install emoji==1.7.0 soynlp
 
+# pytorch lightning version < 2.0.0
+$ python -c "import lightning as ptl; print(ptl.__version__)"
 '''
 
 import os
@@ -17,6 +19,7 @@ from torch.utils.data import Dataset, DataLoader, TensorDataset
 from torch.optim.lr_scheduler import ExponentialLR
 
 from pytorch_lightning import LightningModule, Trainer, seed_everything
+from lightning.pytorch.loggers import CSVLogger
 
 from transformers import BertForSequenceClassification, BertTokenizer, AdamW
 
@@ -33,7 +36,7 @@ class Arg:
     auto_batch_size: str = 'power'  # Let PyTorch Lightening find the best batch size 
     batch_size: int = 0  # Optional, Train/Eval Batch Size. Overrides `auto_batch_size` 
     lr: float = 5e-6  # Starting Learning Rate
-    epochs: int = 3  # Max Epochs
+    epochs: int = 20  # Max Epochs
     max_length: int = 150  # Max Length input size
     report_cycle: int = 100  # Report (Train Metrics) Cycle
     train_data_path: str = "nsmc/ratings_train.txt"  # Train Dataset file 
@@ -252,6 +255,7 @@ def main(cliargs):
         precision=16 if args.fp16 else 32,
         # For TPU Setup
         # tpu_cores=args.tpu_cores if args.tpu_cores else None,
+        logger=CSVLogger(save_dir="logs/")
     )
     trainer.fit(model)
 
