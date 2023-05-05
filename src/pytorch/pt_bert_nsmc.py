@@ -6,7 +6,7 @@ import pandas as pd
 import os
 
 import urllib.request
-from Korpora import Korpora
+#from Korpora import Korpora
 
 
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -83,8 +83,8 @@ parser.add_argument('--no-cuda', action='store_true', default=False,
 parser.add_argument('--seed', type=int, default=42,
                     help='random seed')
 
-#urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_train.txt", filename="ratings_train.txt")
-#urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_test.txt", filename="ratings_test.txt")
+urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_train.txt", filename="ratings_train.txt")
+urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_test.txt", filename="ratings_test.txt")
 
 #Korpora.fetch(
 #    corpus_name="nsmc",
