@@ -38,9 +38,13 @@ import horovod.torch as hvd
 # Training settings
 parser = argparse.ArgumentParser(description='PyTorch NSMC Example',
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('--train-dir', default=os.path.expanduser('/scratch/qualis/ptl/ratings_train.txt'),
+#parser.add_argument('--train-dir', default=os.path.expanduser('/scratch/qualis/ptl/ratings_train.txt'),
+#                    help='path to training data')
+parser.add_argument('--train-dir', default=os.path.expanduser('./ratings_train.txt'),
                     help='path to training data')
-parser.add_argument('--test-dir', default=os.path.expanduser('/scratch/qualis/ptl/ratings_test.txt'),
+#parser.add_argument('--test-dir', default=os.path.expanduser('/scratch/qualis/ptl/ratings_test.txt'),
+#                    help='path to validation data')
+parser.add_argument('--test-dir', default=os.path.expanduser('./ratings_test.txt'),
                     help='path to validation data')
 parser.add_argument('--pretrained-model', default='beomi/kcbert-large',
                     help='Transformers PLM name')
