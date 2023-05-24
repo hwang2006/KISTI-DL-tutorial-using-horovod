@@ -389,7 +389,9 @@ Submitted batch job 169608
             169616    amd_a100nv_8   python   qualis  RUNNING       1:01 1-00:00:00      2 gpu[32,34]
 ```
 ## Running Jupyter
-[Jupyter](https://jupyter.org/) is free software, open standards, and web services for interactive computing across all programming languages. Jupyterlab is the latest web-based interactive development environment for notebooks, code, and data. The Jupyter Notebook is the original web application for creating and sharing computational documents. You will run a notebook server on a worker node (*not* on a login node), which will be accessed from the browser on your PC or labtop through SSH tunneling. In order to do so, you need to add the horovod-enabled virtual envrionment that you have created as a python kernel.
+[Jupyter](https://jupyter.org/) is free software, open standards, and web services for interactive computing across all programming languages. Jupyterlab is the latest web-based interactive development environment for notebooks, code, and data. The Jupyter Notebook is the original web application for creating and sharing computational documents. You will run a notebook server on a worker node (*not* on a login node), which will be accessed from the browser on your PC or labtop through SSH tunneling. 
+<p align="center"><img src="https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/assets/84169368/f2139226-00c3-4c6e-82a0-f12476dc0baf"/></p>
+In order to do so, you need to add the horovod-enabled virtual envrionment that you have created as a python kernel.
 1. activate the horovod-enabled virtual environment:
 ```
 [glogin01]$ conda activate horovod
