@@ -143,21 +143,20 @@ class LitMNIST(L.LightningModule):
 
 
 def main():
-	model = LitMNIST()
-	trainer = L.Trainer(
-    	#accelerator="cpu",
-    	#devices=1,
-    	#strategy="ddp_spawn", 
-    	#accelerator="gpu",
-    	accelerator="auto",
-    	strategy="ddp", 
-    	devices=torch.cuda.device_count() if torch.cuda.is_available() else None,
-    	max_epochs=10,
+    model = LitMNIST()
+    trainer = L.Trainer(
+        #accelerator="cpu",
+        #devices=1,
+        #strategy="ddp_spawn", 
+        #accelerator="gpu",
+        accelerator="auto",
+        strategy="ddp", 
+        devices=torch.cuda.device_count() if torch.cuda.is_available() else None,
+        max_epochs=10,
         num_nodes=2,
-    	logger=CSVLogger(save_dir="logs/"),
-	)
-	trainer.fit(model)
-
+        logger=CSVLogger(save_dir="logs/"),
+    )
+    trainer.fit(model)
 
 if __name__ ==  '__main__':
-	main()
+    main()
