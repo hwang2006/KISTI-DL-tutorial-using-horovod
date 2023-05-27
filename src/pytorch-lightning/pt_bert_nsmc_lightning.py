@@ -18,7 +18,8 @@ import torch
 from torch.utils.data import Dataset, DataLoader, TensorDataset
 from torch.optim.lr_scheduler import ExponentialLR
 
-from pytorch_lightning import LightningModule, Trainer, seed_everything
+#from pytorch_lightning import LightningModule, Trainer, seed_everything
+from lightning import LightningModule, Trainer, seed_everything
 from lightning.pytorch.loggers import CSVLogger
 
 from transformers import BertForSequenceClassification, BertTokenizer, AdamW
@@ -36,7 +37,7 @@ class Arg:
     auto_batch_size: str = 'power'  # Let PyTorch Lightening find the best batch size 
     batch_size: int = 0  # Optional, Train/Eval Batch Size. Overrides `auto_batch_size` 
     lr: float = 5e-6  # Starting Learning Rate
-    epochs: int = 20  # Max Epochs
+    epochs: int = 3  # Max Epochs
     max_length: int = 150  # Max Length input size
     report_cycle: int = 100  # Report (Train Metrics) Cycle
     train_data_path: str = "nsmc/ratings_train.txt"  # Train Dataset file 
@@ -59,6 +60,7 @@ class Model(LightningModule):
         super().__init__()
         self.args = options
         self.bert = BertForSequenceClassification.from_pretrained(self.args.pretrained_model)
+        self.validation_step_outputs = []
         self.tokenizer = BertTokenizer.from_pretrained(
             self.args.pretrained_tokenizer
             if self.args.pretrained_tokenizer
@@ -112,6 +114,12 @@ class Model(LightningModule):
 
         y_true = list(labels.cpu().numpy())
         y_pred = list(preds.cpu().numpy())
+   
+        self.validation_step_outputs.append({
+            'loss': loss,
+            'y_true': y_true,
+            'y_pred': y_pred,
+        })
 
         return {
             'loss': loss,
@@ -119,17 +127,17 @@ class Model(LightningModule):
             'y_pred': y_pred,
         }
 
-    def validation_epoch_end(self, outputs):
+    def on_validation_epoch_end(self):
         loss = torch.tensor(0, dtype=torch.float)
-        for i in outputs:
+        for i in self.validation_step_outputs:
             loss += i['loss'].cpu().detach()
-        _loss = loss / len(outputs)
+        _loss = loss / len(self.validation_step_outputs)
 
         loss = float(_loss)
         y_true = []
         y_pred = []
 
-        for i in outputs:
+        for i in self.validation_step_outputs:
             y_true += i['y_true']
             y_pred += i['y_pred']
 
@@ -150,6 +158,8 @@ class Model(LightningModule):
 
         print()
         pprint(tensorboard_logs)
+        self.validation_step_outputs.clear()
+  
         return {'loss': _loss, 'log': tensorboard_logs}
 
     def configure_optimizers(self):
@@ -265,8 +275,10 @@ from argparse import ArgumentParser
 if __name__ ==  '__main__':
     parser = ArgumentParser()
     parser.add_argument("--accelerator", default="gpu" if torch.cuda.is_available() else "auto")
+    #parser.add_argument("--accelerator", default="gpu" if torch.cuda.is_available() else "cpu")
     parser.add_argument("--devices", default=torch.cuda.device_count() if torch.cuda.is_available() else 1)
-    parser.add_argument("--strategy", default="ddp" if torch.cuda.is_available() else "auto")
+    #parser.add_argument("--strategy", default="ddp" if torch.cuda.is_available() else "auto")
+    parser.add_argument("--strategy", default="ddp" if torch.cuda.is_available() else None)
     parser.add_argument("--num_nodes", default=1)
     cliargs = parser.parse_args()
 
