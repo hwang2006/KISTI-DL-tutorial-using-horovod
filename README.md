@@ -673,11 +673,13 @@ salloc: Nodes gpu[32-33] are ready for job
 ```
 (horovod) [gpu32]$ python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py
 (horovod) [gpu32]$ python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pt_bert_nsmc_lightning.py
+(horovod) [gpu32]$ srun -N 1 --ntasks-per-node=4 python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pt_bert_nsmc_lightning.py
 ```
 - to run one node with 2 GPUs
 ```
 (horovod) [gpu32]$ python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py --devices 2
 (horovod) [gpu32]$ python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pt_bert_nsmc_lightning.py --devices 2
+(horovod) [gpu32]$ srun -N 1 --ntasks-per-node=2 python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pt_bert_nsmc_lightning.py --devices 2
 ```
 
 
