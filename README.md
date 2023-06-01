@@ -654,7 +654,7 @@ salloc: Nodes gpu[32-33] are ready for job
 ```
 (horovod) [gpu32]$ srun -N 2 --ntasks-per-node=4 python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py --num_nodes 2
 ```
-- to run the Bert NSMC (Naver Sentiment Movie Corpus) example in the src/pytorch-lightning directory, you might need to install additional packages (i.e., emoji, soynlp, transformer and pandas) and download the nsmc datasets, for example, using git cloning
+- to run the Bert NSMC (Naver Sentiment Movie Corpus) example in the [src/pytorch-lightning](https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/tree/main/src/pytorch-lightning) directory, you might need to install additional packages (i.e., emoji, soynlp, transformer and pandas) and download the nsmc datasets, for example, using git cloning
 ```
 (horovod) [gpu32]$ pip install emoji==1.7.0 soynlp transformers pandas
 (horovod) [gpu32]$ git clone https://github.com/e9t/nsmc  # download the nsmc datasets in the ./nsmc directory
