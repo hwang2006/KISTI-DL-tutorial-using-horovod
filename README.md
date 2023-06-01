@@ -684,7 +684,7 @@ salloc: Nodes gpu[32-33] are ready for job
 ```
 
 ## References
-* [Distributed training on perlmulter supercomputer](https://github.com/hwang2006/distributed-training-on-perlmutter-using-horovod)
+* [Distributed training on NERSC perlmulter supercomputer in LBNL](https://github.com/hwang2006/distributed-training-on-perlmutter-using-horovod)
 
 
 
