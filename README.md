@@ -387,14 +387,14 @@ Submitted batch job 169608
             169608    amd_a100nv_8   python   qualis  PENDING       0:00 1-00:00:00      2 (Resources)
 [glogin01]$ squeue -u $USER
              JOBID       PARTITION     NAME     USER    STATE       TIME TIME_LIMI  NODES NODELIST(REASON)
-            169616    amd_a100nv_8   python   qualis  RUNNING       1:01 1-00:00:00      2 gpu[32,34]
+            169608    amd_a100nv_8   python   qualis  RUNNING       1:01 1-00:00:00      2 gpu[32,34]
 ```
 4. check the standard output & error files of the batch job:
 ```
 [glogin01]$ cat slurm_169608.out
 [glogin01]$ cat slurm_169608.err
 ```
-5. you may want to stop or kill the batch job.
+5. For some reason, you may want to stop or kill the batch job.
 ```
 [glogin01]$ scancel 169608
 ```
