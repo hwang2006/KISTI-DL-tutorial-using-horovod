@@ -689,12 +689,13 @@ salloc: Nodes gpu[32-33] are ready for job
 - to run one node with 2 GPUs
 ```
 (horovod) [gpu32]$ python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pytorch_mnist_lightning.py --devices 2
-(horovod) [gpu32]$ python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pt_bert_nsmc_lightning.py --devices 2
+(horovod) [gpu32]$ pytoon KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pt_bert_nsmc_lightning.py --devices 2
 (horovod) [gpu32]$ srun -N 1 --ntasks-per-node=2 python KISTI-DL-tutorial-using-horovod/src/pytorch-lightning/pt_bert_nsmc_lightning.py --devices 2
 ```
 
 ## Reference
 * [Distributed training practices on NERSC perlmulter supercomputer in LBNL](https://github.com/hwang2006/distributed-training-on-perlmutter-using-horovod)
+* [Distributed training practices on Perlmutter with Pytorch Lightning](https://github.com/hwang2006/distributed-training-on-perlmutter-with-pytorch-lightning)
 
 
 
