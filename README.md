@@ -389,6 +389,16 @@ Submitted batch job 169608
              JOBID       PARTITION     NAME     USER    STATE       TIME TIME_LIMI  NODES NODELIST(REASON)
             169616    amd_a100nv_8   python   qualis  RUNNING       1:01 1-00:00:00      2 gpu[32,34]
 ```
+4. check the standard output & error files of the batch job:
+```
+[glogin01]$ cat slurm_169608.out
+[glogin01]$ cat slurm_169608.err
+```
+5. you may want to stop or kill the batch job.
+```
+[glogin01]$ scancel 169608
+```
+
 ## Running Jupyter
 [Jupyter](https://jupyter.org/) is free software, open standards, and web services for interactive computing across all programming languages. Jupyterlab is the latest web-based interactive development environment for notebooks, code, and data. The Jupyter Notebook is the original web application for creating and sharing computational documents. You will run a notebook server on a worker node (*not* on a login node), which will be accessed from the browser on your PC or labtop through SSH tunneling. 
 <p align="center"><img src="https://github.com/hwang2006/KISTI-DL-tutorial-using-horovod/assets/84169368/34a753fc-ccb7-423e-b0f3-f973b8cd7122"/>
