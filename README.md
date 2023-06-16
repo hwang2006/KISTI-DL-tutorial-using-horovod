@@ -148,7 +148,7 @@ Thank you for installing Miniconda3!
 [glogin01]$ which conda
 /scratch/$USER/miniconda3/condabin/conda
 [glogin01]$ conda --version
-conda 4.12.0
+conda 23.3.1
 ```
 
 ## Why Horovod for distributed DL?
