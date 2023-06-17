@@ -43,7 +43,7 @@ args = Arg()
 
 # args.tpu_cores = 8  # Enables TPU
 args.fp16 = True  # Enables GPU FP16
-args.batch_size = 16  # Force setup batch_size
+args.batch_size = 32  # Force setup batch_size
 
 class Model(LightningModule):
     def __init__(self, options):
