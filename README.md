@@ -411,7 +411,7 @@ In order to do so, you need to add the horovod-enabled virtual envrionment that 
 ```
 2. install Jupyter on the virtual environment:
 ```
-(horovod) [glogin01]$ conda install jupyter chardet cchardet
+(horovod) [glogin01]$ conda install jupyter notebook=6.5.4 chardet cchardet
 (horovod) [glogin01]$ pip install jupyter-tensorboard
 ```
 3. add the virtual environment as a jupyter kernel:
