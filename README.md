@@ -79,12 +79,12 @@ cpe:/o:centos:centos:7
 ```
 # (option 1) Anaconda 
 [glogin01]$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
-[glogin01]$ wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
+[glogin01]$ wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh wget --no-check-certificate
 ```
 ```
 # (option 2) Miniconda 
 [glogin01]$ cd /scratch/$USER  ## Note that $USER means your user account name on Neuron
-[glogin01]$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+[glogin01]$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-check-certificate
 ```
 
 3. Install Miniconda. By default conda will be installed in your home directory, which has a limited disk space. You will install and create subsequent conda environments on your scratch directory. 
